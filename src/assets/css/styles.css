@@ -1,13 +1,24 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Righteous&display=swap');
 
+:root {
+  --acnh-color-brown: #936826;
+  --acnh-color-yellow: #f4c52f;
+}
 * {
   box-sizing: border-box;
 }
 body {
+  background-color: hsl(45.7, 15%, 15%);
   margin: 0;
   font-family: Montserrat, sans-serif;
 }
 #root {
+  background-color: hsl(45.7, 15%, 20%);
+  /* FIXME: border should only show >= max-width + 4 */
+  border: 1px solid var(--acnh-color-yellow);
+  border-bottom: none;
+  border-top: none;
+  color: var(--acnh-color-yellow);
   display: grid;
   grid-row-gap: 0.5em;
   grid-column-gap: 2em;
@@ -38,6 +49,12 @@ body {
   padding: 0;
   position: relative;
 }
+.cell:focus {
+  outline: 4px solid var(--outline-color, var(--acnh-color-yellow));
+  /* Always .cell border width */
+  outline-offset: -4px;
+  z-index: 1;
+}
 .cell.marked::after {
   color: #fff;
   content: '✖';
@@ -59,12 +76,10 @@ body {
   background-color: #b0b0b0;
   height: auto;
   margin: 0 auto;
-  /* max-width: 64px; */
   max-width: 96px;
   min-width: 40px;
   padding: 0 0.25em;
   width: calc(var(--size) / 5);
-  /* width: 100%; */
 }
 .cell .name {
   align-content: center;
@@ -73,10 +88,10 @@ body {
   padding: 0.25em;
 }
 .controls button {
-  background-color: #936826;
+  background-color: var(--acnh-color-brown);
   border: none;
   border-radius: 6px;
-  color: #f4c52f;
+  color: var(--acnh-color-yellow);
   cursor: pointer;
   font-family: inherit;
   font-size: 1.05em;

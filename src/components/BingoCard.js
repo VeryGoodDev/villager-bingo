@@ -6,7 +6,7 @@ export default function BingoCard({ villagers }) {
   }
   return (
     <div className="bingo-card">
-      {villagers.map(({ backgroundColor, bubbleColor, textColor, name, icon, id }) => (
+      {villagers.map(({ backgroundColor, bubbleColor, complementaryColor, icon, id, name, textColor }) => (
         <button
           key={id}
           type="button"
@@ -14,6 +14,7 @@ export default function BingoCard({ villagers }) {
           onClick={evt => {
             evt.currentTarget.classList.toggle(`marked`)
           }}
+          style={{ '--outline-color': complementaryColor }}
         >
           <div className="cell-inner" style={{ backgroundColor }}>
             <img src={icon} aria-hidden="true" alt="" style={{ backgroundColor }} />

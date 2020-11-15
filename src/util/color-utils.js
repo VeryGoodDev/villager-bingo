@@ -1,10 +1,13 @@
 // Adapted from https://css-tricks.com/converting-color-spaces-in-javascript/#hex-to-hsl and https://stackoverflow.com/questions/46432335/hex-to-hsl-convert-javascript
-export function hexToHsl(hex) {
-  const [red, green, blue] = hex
+function getColorChannels(hex) {
+  return hex
     .match(/^#?([\da-f]{1,2})([\da-f]{1,2})([\da-f]{1,2})$/i)
     .slice(1)
     .map(n => (n.length === 2 ? n : n.repeat(2)))
     .map(n => parseInt(n, 16) / 255)
+}
+export function hexToHsl(hex) {
+  const [red, green, blue] = getColorChannels(hex)
   const cmin = Math.min(red, green, blue)
   const cmax = Math.max(red, green, blue)
   const delta = cmax - cmin
@@ -67,4 +70,9 @@ export function hslToHex(h, s, l) {
   green = Math.round((green + m) * 255).toString(16)
   blue = Math.round((blue + m) * 255).toString(16)
   return `#${red.padStart(2, 0)}${green.padStart(2, 0)}${blue.padStart(2, 0)}`
+}
+export function findComplement(hex) {
+  return getColorChannels(hex)
+    .map(channel => Math.floor((1 - channel) * 255))
+    .map(diff => diff.toString(16).padStart(2, 0))
 }

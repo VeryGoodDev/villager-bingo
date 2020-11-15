@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'preact/hooks'
-import { hexToHsl, hslToHex } from '../util/color-utils'
+import { findComplement, hexToHsl, hslToHex } from '../util/color-utils'
 
 /* eslint-disable */
 const TEST_VILLAGERS = [
@@ -22,10 +22,12 @@ export default function useVillagers() {
 function transformVillager(villager) {
   const [hue, saturation, light] = hexToHsl(villager[`text-color`])
   const backgroundColor = hslToHex(hue, saturation, Math.max(25, light - 1))
+  const complementaryColor = `#${findComplement(villager[`bubble-color`]).join(``)}`
   return {
     // Slightly darkened textColor
     backgroundColor,
     bubbleColor: villager[`bubble-color`],
+    complementaryColor,
     icon: villager.icon_uri,
     id: villager.id,
     name: villager.name[`name-USen`],
