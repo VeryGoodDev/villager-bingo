@@ -1,8 +1,19 @@
 import { h } from 'preact'
-import { useState } from 'preact/hooks'
 
-export default function BingoCard() {
-  const [thing, setThing] = useState(1)
-  console.log(thing, setThing)
-  return <div>Bingo Card</div>
+export default function BingoCard({ villagers }) {
+  if (!Array.isArray(villagers) || !villagers.length) {
+    return null
+  }
+  return (
+    <div className="bingo-card">
+      {villagers.map(villager => (
+        <button type="button" className="cell" onClick={() => {}}>
+          <div className="cell-inner">
+            <img src={villager.icon} aria-hidden="true" alt="" />
+            <span className="name">{villager.name}</span>
+          </div>
+        </button>
+      ))}
+    </div>
+  )
 }

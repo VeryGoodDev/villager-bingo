@@ -1,0 +1,84 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Righteous&display=swap');
+
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  font-family: Montserrat, sans-serif;
+}
+#root {
+  display: grid;
+  grid-row-gap: 0.5em;
+  grid-column-gap: 2em;
+  grid-template-columns: 1fr 2fr;
+  grid-template-rows: auto auto 1fr;
+  justify-content: center;
+  margin: 0 auto;
+  max-width: 750px;
+  min-height: 100vh;
+  padding: 1em;
+}
+.sidebar {
+  align-content: start;
+  display: grid;
+  grid-row-gap: 1em;
+}
+.bingo-card {
+  --size: calc(100vmin - 200px);
+  align-self: start;
+  border: 1px solid black;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+}
+.cell {
+  border: 1px solid #000;
+  cursor: pointer;
+  padding: 0;
+  position: relative;
+}
+.cell.marked::after {
+  color: #fff;
+  content: '✖';
+  font-size: calc(var(--size) / 5 - 0.5em);
+  left: 50%;
+  position: absolute;
+  text-shadow: 0 0 8px #000;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+}
+.cell-inner {
+  display: grid;
+  grid-template-rows: 1fr auto;
+  min-height: 100%;
+  text-align: center;
+}
+.cell img {
+  background-color: #b0b0b0;
+  height: auto;
+  padding: 0 0.25em;
+  width: calc(var(--size) / 5);
+}
+.cell .name {
+  align-content: center;
+  align-items: stretch;
+  display: grid;
+  padding: 0.25em;
+}
+.controls button {
+  background-color: #936826;
+  border: none;
+  border-radius: 6px;
+  color: #f4c52f;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 1.05em;
+  font-weight: bold;
+  padding: 0.25em 1em 0.375em;
+}
+
+[hidden] {
+  display: none !important;
+}

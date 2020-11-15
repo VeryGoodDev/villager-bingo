@@ -35,6 +35,9 @@
       "react": {
         "pragma": "h"
       }
+    },
+    "rules": {
+      "react/prop-types": "off"
     }
   },
   "alias": {
