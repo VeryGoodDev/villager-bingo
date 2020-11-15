@@ -4,11 +4,9 @@
   "description": "Bingo card generator/game for villager hunting in Animal Crossing: New Horizons ",
   "scripts": {
     "build": "parcel build src/index.html --out-dir ./ --public-url ./",
-    "dev": "preact watch",
+    "dev": "parcel src/index.html -p 9000",
     "lint": "eslint src",
-    "lint:fix": "eslint src --fix",
-    "serve": "sirv build --port 8080 --cors --single",
-    "start": "parcel index.html -p 9000"
+    "lint:fix": "eslint src --fix"
   },
   "dependencies": {
     "preact": "^10.3.2",
