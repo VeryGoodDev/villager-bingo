@@ -5,6 +5,16 @@ import { random } from '../util/math'
 import BingoCard from './BingoCard'
 import useVillagers from './useVillagers'
 
+// TODO: Use indexedDB for caching villager data
+// TODO: General styling
+// TODO: Print options w/ and w/o images
+// TODO: Investigate caching images as base64 strings
+// TODO: Mobile
+// TODO: Set free square and exclusions
+// TODO: Bingo detection (count total bingos)
+// TODO: Maybe look into PWA-ifying
+// TODO: Use browser language/user selected for names (villager data has multiple, use navigator.languages)
+
 function getRandomVillagers(villagers) {
   if (!villagers) return villagers
   const indexes = new Set()
@@ -15,8 +25,8 @@ function getRandomVillagers(villagers) {
 }
 export default function App() {
   const [showCard, setShowCard] = useState(false)
-  const allVillagers = useVillagers()
   const [villagers, setVillagers] = useState(null)
+  const allVillagers = useVillagers()
   return (
     <Fragment>
       <div className="sidebar">

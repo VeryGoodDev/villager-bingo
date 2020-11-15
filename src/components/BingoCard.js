@@ -6,8 +6,9 @@ export default function BingoCard({ villagers }) {
   }
   return (
     <div className="bingo-card">
-      {villagers.map(({ backgroundColor, bubbleColor, textColor, name, icon }) => (
+      {villagers.map(({ backgroundColor, bubbleColor, textColor, name, icon, id }) => (
         <button
+          key={id}
           type="button"
           className="cell"
           onClick={evt => {
