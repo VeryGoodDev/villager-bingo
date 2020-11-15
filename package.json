@@ -7,7 +7,8 @@
     "serve": "sirv build --port 8080 --cors --single",
     "dev": "preact watch",
     "lint": "eslint src",
-    "test": "jest"
+    "test": "jest",
+    "start": "parcel index.html -p 9000"
   },
   "dependencies": {
     "preact": "^10.3.2",
@@ -15,6 +16,7 @@
     "preact-router": "^3.2.1"
   },
   "devDependencies": {
+    "@babel/core": "^7.12.3",
     "@babel/plugin-transform-react-jsx": "^7.12.5",
     "eslint": "^6.0.1",
     "eslint-config-personal": "github:verygooddev/eslint-config-personal",
