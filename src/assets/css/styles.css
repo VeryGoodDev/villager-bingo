@@ -58,6 +58,7 @@ body {
 .cell img {
   background-color: #b0b0b0;
   height: auto;
+  margin: 0 auto;
   padding: 0 0.25em;
   width: calc(var(--size) / 5);
 }
@@ -77,6 +78,11 @@ body {
   font-size: 1.05em;
   font-weight: bold;
   padding: 0.25em 1em 0.375em;
+}
+.controls button:disabled {
+  background-color: #ccc;
+  color: #999;
+  cursor: not-allowed;
 }
 
 [hidden] {

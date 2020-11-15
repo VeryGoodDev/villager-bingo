@@ -6,11 +6,19 @@ export default function BingoCard({ villagers }) {
   }
   return (
     <div className="bingo-card">
-      {villagers.map(villager => (
-        <button type="button" className="cell" onClick={() => {}}>
-          <div className="cell-inner">
-            <img src={villager.icon} aria-hidden="true" alt="" />
-            <span className="name">{villager.name}</span>
+      {villagers.map(({ backgroundColor, bubbleColor, textColor, name, icon }) => (
+        <button
+          type="button"
+          className="cell"
+          onClick={evt => {
+            evt.currentTarget.classList.toggle(`marked`)
+          }}
+        >
+          <div className="cell-inner" style={{ backgroundColor }}>
+            <img src={icon} aria-hidden="true" alt="" style={{ backgroundColor }} />
+            <span className="name" style={{ backgroundColor: bubbleColor, color: textColor }}>
+              {name}
+            </span>
           </div>
         </button>
       ))}

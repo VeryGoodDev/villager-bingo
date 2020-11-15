@@ -16,13 +16,20 @@ function getRandomVillagers(villagers) {
 export default function App() {
   const [showCard, setShowCard] = useState(false)
   const allVillagers = useVillagers()
-  const villagers = getRandomVillagers(allVillagers)
+  const [villagers, setVillagers] = useState(null)
   return (
     <Fragment>
       <div className="sidebar">
         <p>Instructions here blah blah blah</p>
         <div className="controls">
-          <button type="button" onClick={() => setShowCard(true)}>
+          <button
+            type="button"
+            disabled={!allVillagers?.length}
+            onClick={() => {
+              setVillagers(getRandomVillagers(allVillagers))
+              setShowCard(true)
+            }}
+          >
             Generate Card
           </button>
         </div>
