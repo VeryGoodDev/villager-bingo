@@ -1,5 +1,13 @@
-import { h } from 'preact'
+import { Fragment, h } from 'preact'
+import BingoCard from './BingoCard'
 
 export default function App() {
-  return <div id="app">Cool stuff soon</div>
+  return (
+    <Fragment>
+      <div>
+        <p>Instructions here blah blah blah</p>
+      </div>
+      <BingoCard />
+    </Fragment>
+  )
 }
