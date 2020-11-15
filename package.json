@@ -3,7 +3,7 @@
   "name": "villager-bingo",
   "description": "Bingo card generator/game for villager hunting in Animal Crossing: New Horizons ",
   "scripts": {
-    "build": "parcel build index.html --out-dir build",
+    "build": "parcel build index.html --out-dir build --public-url ./",
     "dev": "preact watch",
     "lint": "eslint src",
     "lint:fix": "eslint src --fix",
