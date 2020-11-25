@@ -40,7 +40,7 @@ export default function App() {
               setShowCard(true)
             }}
           >
-            Generate Card
+            Generate New Card
           </button>
         </div>
       </div>

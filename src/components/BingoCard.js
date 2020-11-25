@@ -14,6 +14,7 @@ export default function BingoCard({ villagers }) {
           onClick={evt => {
             evt.currentTarget.classList.toggle(`marked`)
           }}
+          // FIXME: Need a consistent way to get a better contrast
           style={{ '--outline-color': complementaryColor }}
         >
           <div className="cell-inner" style={{ backgroundColor }}>
