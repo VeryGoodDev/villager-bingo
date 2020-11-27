@@ -10,6 +10,8 @@ export default function VillagerCombobox({ placeholder, id, labelText, onSelect 
   const [inputText, setInputText] = useState(``)
   const inputRef = useRef()
   const allVillagers = useVillagers()
+  const fuzzyMatcher = new RegExp([...inputText].join(`.*`), `i`)
+  const filteredVillagers = allVillagers?.filter(villager => fuzzyMatcher.test(villager.name)) ?? []
   return (
     <div>
       <label htmlFor={id}>
@@ -41,9 +43,9 @@ export default function VillagerCombobox({ placeholder, id, labelText, onSelect 
           }}
         />
         <ComboboxPopover style={{ maxHeight: 300, overflow: `auto` }}>
-          {allVillagers && (
+          {filteredVillagers.length && (
             <ComboboxList>
-              {allVillagers.map(villager => (
+              {filteredVillagers.map(villager => (
                 <ComboboxOption value={villager.id}>{villager.name}</ComboboxOption>
               ))}
             </ComboboxList>
