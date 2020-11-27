@@ -1,19 +1,19 @@
-// @import url(https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Righteous&display=swap)
-
 :root
   --acnh-color-brown #936826
   --acnh-color-yellow #f4c52f
+  for num in (1..15)
+    --background-color-{num * 5 + 10} hsl(45.7, 15%, num * 5 + 10)
 
 *
   box-sizing border-box
 
 body
-  background-color hsl(45.7, 15%, 15%)
+  background-color var(--background-color-15)
   margin 0
   font-family Montserrat, sans-serif
 
 #root
-  background-color hsl(45.7, 15%, 20%)
+  background-color var(--background-color-20)
   // FIXME: border should only show >= max-width + 4
   border 1px solid var(--acnh-color-yellow)
   border-bottom none
@@ -111,6 +111,9 @@ body
   background-color #ccc
   color #999
   cursor not-allowed
+
+label
+  cursor pointer
 
 [hidden]
   display none !important

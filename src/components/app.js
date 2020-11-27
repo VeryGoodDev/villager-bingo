@@ -1,10 +1,10 @@
-import { Combobox, ComboboxInput, ComboboxList, ComboboxOption, ComboboxPopover } from '@reach/combobox'
-import '@reach/combobox/styles.css'
 import { Fragment, h } from 'preact'
 import { useState } from 'preact/hooks'
+import '../assets/css/villager-combobox.styl'
 import { random } from '../util/math'
 import BingoCard from './BingoCard'
 import useVillagers from './useVillagers'
+import VillagerCombobox from './VillagerCombobox'
 
 // TODO: Use indexedDB for caching villager data
 // TODO: General styling
@@ -27,35 +27,25 @@ function getRandomVillagers(villagers) {
 export default function App() {
   const [showCard, setShowCard] = useState(false)
   const [villagers, setVillagers] = useState(null)
+  const [selectedTarget, setSelectedTarget] = useState(null)
   const allVillagers = useVillagers()
   return (
     <Fragment>
       <div className="sidebar">
         <p>Instructions here blah blah blah</p>
         <div className="controls">
-          {/* FIXME: Move to separate component */}
-          <div>
-            <label htmlFor="targetVillagerInput">
-              <small>Target Villager (Free Space)</small>
-            </label>
-            <Combobox openOnFocus>
-              <ComboboxInput
-                id="targetVillagerInput"
-                autocomplete={false}
-                placeholder="Type villager name(s)"
-                style={{ padding: `0.25em 0.5em`, width: `100%` }}
-              />
-              <ComboboxPopover style={{ maxHeight: 300, overflow: `auto` }}>
-                {allVillagers && (
-                  <ComboboxList>
-                    {allVillagers.map(villager => (
-                      <ComboboxOption value={villager.name} />
-                    ))}
-                  </ComboboxList>
-                )}
-              </ComboboxPopover>
-            </Combobox>
-          </div>
+          {/* TODO: Actually do something with selected villager */}
+          {selectedTarget && (
+            <button type="button" onClick={() => setSelectedTarget(null)}>
+              {selectedTarget.name}
+            </button>
+          )}
+          <VillagerCombobox
+            placeholder="Type villager's name"
+            id="targetVillager"
+            labelText="Target Villager (Free Space)"
+            onSelect={villager => setSelectedTarget(villager)}
+          />
           <button
             type="button"
             disabled={!allVillagers?.length}
