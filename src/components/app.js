@@ -1,6 +1,7 @@
+import { Combobox, ComboboxInput, ComboboxList, ComboboxOption, ComboboxPopover } from '@reach/combobox'
+import '@reach/combobox/styles.css'
 import { Fragment, h } from 'preact'
 import { useState } from 'preact/hooks'
-// import '../assets/css/styles.css'
 import { random } from '../util/math'
 import BingoCard from './BingoCard'
 import useVillagers from './useVillagers'
@@ -32,6 +33,29 @@ export default function App() {
       <div className="sidebar">
         <p>Instructions here blah blah blah</p>
         <div className="controls">
+          {/* FIXME: Move to separate component */}
+          <div>
+            <label htmlFor="targetVillagerInput">
+              <small>Target Villager (Free Space)</small>
+            </label>
+            <Combobox openOnFocus>
+              <ComboboxInput
+                id="targetVillagerInput"
+                autocomplete={false}
+                placeholder="Type villager name(s)"
+                style={{ padding: `0.25em 0.5em`, width: `100%` }}
+              />
+              <ComboboxPopover style={{ maxHeight: 300, overflow: `auto` }}>
+                {allVillagers && (
+                  <ComboboxList>
+                    {allVillagers.map(villager => (
+                      <ComboboxOption value={villager.name} />
+                    ))}
+                  </ComboboxList>
+                )}
+              </ComboboxPopover>
+            </Combobox>
+          </div>
           <button
             type="button"
             disabled={!allVillagers?.length}
