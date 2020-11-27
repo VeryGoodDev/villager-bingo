@@ -50,10 +50,16 @@ body
   position relative
 
 .cell:focus
-  outline 4px dashed var(--outline-color, var(--acnh-color-yellow))
-  // Always .cell border width * -1
-  outline-offset -4px
+  --outline-width calc(1em / 3)
+  outline var(--outline-width) solid #000
+  outline-offset calc(var(--outline-width) * -1)
   z-index 1
+
+  .cell-inner
+    // TODO: Better gradient?
+    background-image linear-gradient(to right, darkred, darkorange, gold, darkgreen, mediumblue, rebeccapurple) !important
+  img
+    background-color transparent !important
 
 .cell.marked::after
   color #fff
