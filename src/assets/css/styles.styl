@@ -44,31 +44,49 @@ body
   grid-template-rows repeat(5, 1fr)
 
 .cell
+  --outline-width calc(1em / 3)
   border 1px solid #000
   cursor pointer
+  outline var(--outline-width) solid transparent
+  outline-offset calc(var(--outline-width) * -1)
   padding 0
   position relative
+  transition 110ms ease-in-out
+  transition-property background-color, outline
 
-.cell:focus
-  --outline-width calc(1em / 3)
-  outline var(--outline-width) solid #000
-  outline-offset calc(var(--outline-width) * -1)
-  z-index 1
+  &:focus
+    outline-color #000
+    z-index 1
 
-  .cell-inner
-    // TODO: Better gradient?
-    background-image linear-gradient(to right, darkred, darkorange, gold, darkgreen, mediumblue, rebeccapurple) !important
+    .cell-inner
+      // TODO: Better gradient?
+      background-image linear-gradient(to right, darkred, darkorange, gold, darkgreen, mediumblue, rebeccapurple) !important
 
-.cell.marked::after
-  color #fff
-  content '✖'
-  font-size calc(var(--size) / 5 - 0.5em)
-  left 50%
-  position absolute
-  text-shadow 0 0 8px #000
-  top 50%
-  transform translate(-50%, -50%)
-  z-index 1
+  &.marked::after
+    color #fff
+    content '✖'
+    font-size calc(var(--size) / 5 - 0.5em)
+    left 50%
+    position absolute
+    text-shadow 0 0 8px #000
+    top 50%
+    transform translate(-50%, -50%)
+    z-index 1
+
+  img
+    background-color transparent
+    height auto
+    margin 0 auto
+    max-width 88px
+    min-width 40px
+    padding 0 0.25em
+    width calc(var(--size) / 5)
+
+  .name
+    align-content center
+    align-items stretch
+    display grid
+    padding 0.25em
 
 .cell-inner
   display grid
@@ -76,41 +94,26 @@ body
   min-height 100%
   text-align center
 
-.cell img
-  background-color transparent
-  height auto
-  margin 0 auto
-  max-width 88px
-  min-width 40px
-  padding 0 0.25em
-  width calc(var(--size) / 5)
-
-.cell .name
-  align-content center
-  align-items stretch
-  display grid
-  padding 0.25em
-
 .controls
   display grid
   grid-row-gap 1em
   justify-content stretch
 
-.controls button
-  background-color var(--acnh-color-brown)
-  border none
-  border-radius 6px
-  color var(--acnh-color-yellow)
-  cursor pointer
-  font-family inherit
-  font-size 1.05em
-  font-weight bold
-  padding 0.25em 1em 0.375em
+  button
+    background-color var(--acnh-color-brown)
+    border none
+    border-radius 6px
+    color var(--acnh-color-yellow)
+    cursor pointer
+    font-family inherit
+    font-size 1.05em
+    font-weight bold
+    padding 0.25em 1em 0.375em
 
-.controls button:disabled
-  background-color #ccc
-  color #999
-  cursor not-allowed
+    &:disabled
+      background-color #ccc
+      color #999
+      cursor not-allowed
 
 label
   cursor pointer
