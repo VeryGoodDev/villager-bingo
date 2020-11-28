@@ -45,12 +45,6 @@ export default function App() {
       <div className="sidebar">
         <p>Instructions here blah blah blah</p>
         <div className="controls">
-          {/* TODO: Actually do something with selected villager */}
-          {selectedTarget && (
-            <button type="button" onClick={() => setSelectedTarget(null)}>
-              {selectedTarget.name}
-            </button>
-          )}
           <VillagerCombobox
             placeholder="Type villager's name"
             id="targetVillager"
@@ -69,6 +63,9 @@ export default function App() {
               } else {
                 setExclusions([...exclusions, villager])
               }
+            }}
+            onDeselect={villager => {
+              setExclusions(exclusions.filter(v => v !== villager))
             }}
           />
           <button

@@ -15,7 +15,14 @@ function Chip({ text, onDelete = () => {} }) {
   )
 }
 
-export default function VillagerCombobox({ placeholder, id, labelText, onSelect = () => {}, multiSelect = false }) {
+export default function VillagerCombobox({
+  placeholder,
+  id,
+  labelText,
+  onSelect = () => {},
+  multiSelect = false,
+  onDeselect = () => {},
+}) {
   const [inputText, setInputText] = useState(``)
   const [selectedVillagers, setSelectedVillagers] = useState([])
   const inputRef = useRef()
@@ -43,10 +50,9 @@ export default function VillagerCombobox({ placeholder, id, labelText, onSelect 
             } else {
               setSelectedVillagers([...selectedVillagers, selection.id])
             }
+          } else {
+            setInputText(selection.name)
           }
-          // Combobox insists on setting the input text on select. I don't want it to do this. After looking in the Combobox source, it calls the onSelect handler and then updates the input value. Therefore, I grab the input value using a ref attached to the input, then use a 0ms setTimeout to set the input value to that. The setTimeout makes that call happen after the current tick in the event loop, which gives Combobox enough time to do its thing before I smack its hand and put my value back like I want it
-          // const userInput = inputRef.current?.value || ``
-          // setTimeout(() => setInputText(userInput), 250)
         }}
       >
         <ComboboxInput
@@ -83,6 +89,7 @@ export default function VillagerCombobox({ placeholder, id, labelText, onSelect 
                 key={villagerId}
                 text={villager.name}
                 onDelete={() => {
+                  onDeselect(allVillagers.find(v => v.id === villagerId))
                   setSelectedVillagers(selectedVillagers.filter(v => v !== villagerId))
                 }}
               />
