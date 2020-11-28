@@ -46,6 +46,13 @@ export default function App() {
             labelText="Target Villager (Free Space)"
             onSelect={villager => setSelectedTarget(villager)}
           />
+          <VillagerCombobox
+            multiSelect
+            placeholder="Type villager name(s)"
+            id="excludeVillagers"
+            labelText="Exclude Villager(s)"
+            // onSelect={console.log}
+          />
           <button
             type="button"
             disabled={!allVillagers?.length}

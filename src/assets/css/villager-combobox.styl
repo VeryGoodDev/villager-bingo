@@ -1,5 +1,68 @@
-[data-reach-combobox-input]::placeholder
-  color #ccc
-  // font-size 1.1em
-  font-style italic
-  letter-spacing 0.5px
+[data-reach-combobox-input]
+  background-color var(--background-color-35)
+  border 1px solid var(--acnh-color-yellow)
+  border-radius 6px
+  color #ecebea
+  font-size 1em
+  padding 0.25em 0.375em 0.375em
+  width 100%
+
+  &[aria-expanded=true]
+    border-bottom-left-radius 0
+    border-bottom-right-radius 0
+
+  &::placeholder
+    color #ccc
+    font-style italic
+    letter-spacing 0.5px
+
+  &:focus
+    box-shadow 0 0 0 2.5px var(--acnh-color-yellow)
+    outline none
+
+// Wrapper around list
+[data-reach-combobox-popover]
+  border 1px solid var(--acnh-color-yellow)
+  background-color var(--background-color-35)
+  color #fff
+
+// Inner list element
+[data-reach-combobox-list]
+  list-style none
+  margin 0
+  padding 0
+  user-select none
+
+// Selectable item in list
+[data-reach-combobox-option]
+  cursor pointer
+  margin 0
+
+  & > div
+    padding 0.25em 0.5em
+
+  // TODO: Find right background colors (shades of --acnh-color-yellow)
+  &:hover
+    background-color var(--acnh-color-yellow)
+    color #000
+    opacity 0.7
+
+  // &[aria-selected=true]
+  //   background-color hsl(211, 10%, 95%)
+
+  //   &:hover
+  //     background-color hsl(211, 10%, 90%)
+
+.selected
+  align-items center
+  background-color var(--acnh-color-yellow)
+  color #000
+  display grid
+  font-weight bold
+  grid-column-gap 0.25em
+  grid-template-columns auto auto
+  justify-content start
+
+  &::after
+    // color var(--acnh-color-yellow)
+    content '✔'
