@@ -16,18 +16,27 @@ import VillagerCombobox from './VillagerCombobox'
 // TODO: Maybe look into PWA-ifying
 // TODO: Use browser language/user selected for names (villager data has multiple, use navigator.languages)
 
-function getRandomVillagers(villagers) {
+function getRandomVillagers(villagers, { target, exclusions = [] } = {}) {
   if (!villagers) return villagers
-  const indexes = new Set()
-  while (indexes.size < 25) {
-    indexes.add(random(0, villagers.length))
+  const indexSet = new Set()
+  const targetIndex = villagers.findIndex(v => v.id === target?.id)
+  const excludedIndexes = exclusions.map(villager => villagers.findIndex(v => v.id === villager.id))
+  while (indexSet.size < 25) {
+    let newIndex
+    do {
+      newIndex = random(0, villagers.length)
+    } while (excludedIndexes.includes(newIndex))
+    indexSet.add(newIndex)
   }
-  return [...indexes].map(idx => villagers[idx])
+  const indexes = [...indexSet]
+  if (target) indexes[12] = targetIndex
+  return indexes.map(idx => villagers[idx])
 }
 export default function App() {
   const [showCard, setShowCard] = useState(false)
   const [villagers, setVillagers] = useState(null)
   const [selectedTarget, setSelectedTarget] = useState(null)
+  const [exclusions, setExclusions] = useState([])
   const allVillagers = useVillagers()
   return (
     <Fragment>
@@ -51,14 +60,26 @@ export default function App() {
             placeholder="Type villager name(s)"
             id="excludeVillagers"
             labelText="Exclude Villager(s)"
-            // onSelect={console.log}
+            onSelect={villager => {
+              // FIXME: Exclusions should never prevent a full 25 villager card from generating
+              if (exclusions.includes(villager)) {
+                setExclusions(exclusions.filter(v => v !== villager))
+              } else {
+                setExclusions([...exclusions, villager])
+              }
+            }}
           />
           <button
             type="button"
             className="cta-btn"
             disabled={!allVillagers?.length}
             onClick={() => {
-              setVillagers(getRandomVillagers(allVillagers))
+              setVillagers(
+                getRandomVillagers(allVillagers, {
+                  target: selectedTarget,
+                  exclusions,
+                })
+              )
               setShowCard(true)
             }}
           >
