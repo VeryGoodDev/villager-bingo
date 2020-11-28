@@ -4,7 +4,16 @@ import { h } from 'preact'
 import { useRef, useState } from 'preact/hooks'
 import useVillagers from './useVillagers'
 
-// FIXME: Placeholder, labels, etc. from props
+function Chip({ text, onDelete = () => {} }) {
+  return (
+    <div className="chip">
+      <small>{text}</small>
+      <button type="button" onClick={() => onDelete(text)}>
+        ✖
+      </button>
+    </div>
+  )
+}
 
 export default function VillagerCombobox({ placeholder, id, labelText, onSelect = () => {}, multiSelect = false }) {
   const [inputText, setInputText] = useState(``)
@@ -65,6 +74,22 @@ export default function VillagerCombobox({ placeholder, id, labelText, onSelect 
           )}
         </ComboboxPopover>
       </Combobox>
+      {selectedVillagers.length ? (
+        <div className="chip-container">
+          {selectedVillagers.map(villagerId => {
+            const villager = allVillagers.find(v => v.id === villagerId)
+            return (
+              <Chip
+                key={villagerId}
+                text={villager.name}
+                onDelete={() => {
+                  setSelectedVillagers(selectedVillagers.filter(v => v !== villagerId))
+                }}
+              />
+            )
+          })}
+        </div>
+      ) : null}
     </div>
   )
 }

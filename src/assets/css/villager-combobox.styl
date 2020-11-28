@@ -66,3 +66,32 @@
   &::after
     // color var(--acnh-color-yellow)
     content '✔'
+
+// Chip styles (separated so they can be broken out if Chip needs to be reusable)
+.chip-container
+  // display flex
+  padding 0.5em 0
+
+.chip
+  align-items center
+  background-color var(--acnh-color-yellow)
+  border-radius 20px
+  color #000
+  display inline-grid
+  grid-auto-flow column
+  grid-column-gap 3px
+  margin 0 0.375em 0.375em 0
+  padding 2px 0.375em 2px 0.5em
+
+  button
+    background-color transparent
+    border none
+    border-radius 50%
+    cursor pointer
+    font-size 0.625em
+    height 16px
+    padding 0
+    width 16px
+
+    &:hover
+      background-color rgba(0, 0, 0, 0.15)

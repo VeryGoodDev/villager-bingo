@@ -55,6 +55,7 @@ export default function App() {
           />
           <button
             type="button"
+            className="cta-btn"
             disabled={!allVillagers?.length}
             onClick={() => {
               setVillagers(getRandomVillagers(allVillagers))
