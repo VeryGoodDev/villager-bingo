@@ -18,10 +18,12 @@ import VillagerCombobox from './VillagerCombobox'
 
 function getRandomVillagers(villagers, { target, exclusions = [] } = {}) {
   if (!villagers) return villagers
+  const max = target ? 24 : 25
   const indexSet = new Set()
   const targetIndex = villagers.findIndex(v => v.id === target?.id)
   const excludedIndexes = exclusions.map(villager => villagers.findIndex(v => v.id === villager.id))
-  while (indexSet.size < 25) {
+  if (target) excludedIndexes.push(targetIndex)
+  while (indexSet.size < max) {
     let newIndex
     do {
       newIndex = random(0, villagers.length)
@@ -29,7 +31,7 @@ function getRandomVillagers(villagers, { target, exclusions = [] } = {}) {
     indexSet.add(newIndex)
   }
   const indexes = [...indexSet]
-  if (target) indexes[12] = targetIndex
+  if (target) indexes.splice(12, 0, targetIndex)
   return indexes.map(idx => villagers[idx])
 }
 export default function App() {
