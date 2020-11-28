@@ -11,7 +11,9 @@ import VillagerCombobox from './VillagerCombobox'
 // TODO: Print options w/ and w/o images
 // TODO: Investigate caching images as base64 strings
 // TODO: Mobile
-// TODO: Set free square and exclusions
+// TODO: Make free square clearable
+// TODO: Exclusions max length = villagers.length - 25
+// TODO: No free space selection in exclusions and vice versa
 // TODO: Bingo detection (count total bingos)
 // TODO: Maybe look into PWA-ifying
 // TODO: Use browser language/user selected for names (villager data has multiple, use navigator.languages)
