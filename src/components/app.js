@@ -17,6 +17,8 @@ import VillagerCombobox from './VillagerCombobox'
 // TODO: Bingo detection (count total bingos)
 // TODO: Maybe look into PWA-ifying
 // TODO: Use browser language/user selected for names (villager data has multiple, use navigator.languages)
+// TODO: Break out target, exclude, language, clear cache, etc. into options menu
+// TODO: Footer with copyright, links, etc.
 
 function getRandomVillagers(villagers, { target, exclusions = [] } = {}) {
   if (!villagers) return villagers
@@ -85,6 +87,16 @@ export default function App() {
             }}
           >
             Generate New Card
+          </button>
+          <button
+            type="button"
+            className="cta-btn"
+            onClick={evt => {
+              indexedDB.deleteDatabase(`bingo`)
+              evt.target.disabled = true
+            }}
+          >
+            Clear Cache
           </button>
         </div>
       </div>
