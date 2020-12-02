@@ -61,6 +61,52 @@
   &::after
     content '✔'
 
+// Input styles (separated for ease of breaking out if Input needs to be reusable)
+.input-wrapper
+  align-items center
+  background-color var(--background-color-35)
+  border 1px solid var(--acnh-color-yellow)
+  border-radius 6px
+  color #eee
+  display grid
+  grid-template-columns 1fr auto
+  font-size 1em
+  justify-content space-around
+  padding 0.25em 0.375em 0.375em
+  width 100%
+
+  &:focus-within
+    box-shadow 0 0 0 2.5px var(--acnh-color-yellow)
+
+  input
+    background-color transparent
+    border none
+    color inherit
+    font-size inherit
+
+    &:focus
+      outline none
+
+    &::placeholder
+      color #ccc
+      font-style italic
+      letter-spacing 0.5px
+
+  .clear-input
+    background-color transparent
+    border none
+    border-radius 50%
+    color inherit
+    font-weight inherit
+    height 20px
+    padding 0 0 1px
+    width 20px
+
+    &:focus,
+    &:hover
+      background-color rgba(255, 255, 255, 0.15)
+      outline none
+
 // Chip styles (separated so they can be broken out if Chip needs to be reusable)
 .chip-container
   padding 0.5em 0
@@ -81,7 +127,6 @@
     background-color transparent
     border none
     border-radius 50%
-    cursor pointer
     font-size 0.625em
     font-weight inherit
     height 16px

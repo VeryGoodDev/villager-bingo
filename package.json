@@ -40,7 +40,8 @@
     },
     "rules": {
       "consistent-return": "off",
-      "react/prop-types": "off"
+      "react/prop-types": "off",
+      "react/jsx-props-no-spreading": "off"
     }
   },
   "alias": {

@@ -1,6 +1,6 @@
 import { Combobox, ComboboxInput, ComboboxList, ComboboxOption, ComboboxPopover } from '@reach/combobox'
 // import '@reach/combobox/styles.css'
-import { h } from 'preact'
+import { Fragment, h } from 'preact'
 import { useRef, useState } from 'preact/hooks'
 import useVillagers from './useVillagers'
 
@@ -15,7 +15,104 @@ function Chip({ text, onDelete = () => {} }) {
   )
 }
 
-export default function VillagerCombobox({
+function Input({ placeholder, id, labelText, clearable = false, onClear, ...rest }) {
+  const inputRef = useRef()
+  return (
+    <Fragment>
+      <label htmlFor={id}>
+        <small>{labelText}</small>
+      </label>
+      <div className="input-wrapper">
+        <input ref={inputRef} type="text" id={id} placeholder={placeholder} {...rest} />
+        {clearable ? (
+          <button
+            type="button"
+            className="clear-input"
+            aria-label="Clear input"
+            onClick={() => {
+              onClear?.()
+              inputRef.current?.focus()
+            }}
+          >
+            ✖
+          </button>
+        ) : null}
+      </div>
+    </Fragment>
+  )
+}
+
+export function VillagerCombobox({
+  placeholder,
+  id,
+  labelText,
+  onSelect = () => {},
+  multiSelect = false,
+  onDeselect = () => {},
+}) {
+  const [inputText, setInputText] = useState(``)
+  const [showOptions, setShowOptions] = useState(false)
+  const [selectedVillagers, setSelectedVillagers] = useState([])
+  const allVillagers = useVillagers()
+  const fuzzyMatcher = new RegExp([...inputText].join(`.*`), `i`)
+  const filteredVillagers = allVillagers?.filter(villager => fuzzyMatcher.test(villager.name)) ?? []
+  return (
+    <div>
+      <Input
+        id={id}
+        placeholder={placeholder}
+        labelText={labelText}
+        value={inputText}
+        onInput={evt => {
+          setInputText(evt.target.value)
+          if (!showOptions) setShowOptions(true)
+        }}
+        clearable={inputText.length || showOptions}
+        onClear={() => {
+          if (showOptions) {
+            setShowOptions(false)
+          } else {
+            setInputText(``)
+          }
+        }}
+        // FIXME: This fights with the default clear behavior
+        onFocus={evt => {
+          if (evt.relatedTarget) return
+          setShowOptions(true)
+        }}
+        onBlur={evt => {
+          console.log(evt)
+          if (evt.relatedTarget) return
+          setShowOptions(false)
+        }}
+        onClick={() => {
+          if (!showOptions) setShowOptions(true)
+        }}
+      />
+      {/* Popup */}
+      {showOptions ? (
+        <div>
+          <ul>
+            {filteredVillagers.map(villager => (
+              <li key={villager.id}>
+                <button
+                  type="button"
+                  onClick={() => {
+                    console.log(villager)
+                  }}
+                >
+                  {villager.name}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ) : null}
+    </div>
+  )
+}
+
+export default function VillagerComboboxReach({
   placeholder,
   id,
   labelText,

@@ -4,7 +4,7 @@ import '../assets/css/villager-combobox.styl'
 import { random } from '../util/math'
 import BingoCard from './BingoCard'
 import useVillagers from './useVillagers'
-import VillagerCombobox from './VillagerCombobox'
+import { VillagerCombobox } from './VillagerCombobox'
 
 // TODO: Use indexedDB for caching villager data
 // TODO: General styling
@@ -19,6 +19,7 @@ import VillagerCombobox from './VillagerCombobox'
 // TODO: Use browser language/user selected for names (villager data has multiple, use navigator.languages)
 // TODO: Break out target, exclude, language, clear cache, etc. into options menu
 // TODO: Footer with copyright, links, etc.
+// TODO: Show loading while villagers load
 
 function getRandomVillagers(villagers, { target, exclusions = [] } = {}) {
   if (!villagers) return villagers
