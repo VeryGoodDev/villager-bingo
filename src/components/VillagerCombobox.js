@@ -88,7 +88,7 @@ export function VillagerCombobox({
           if (evt.relatedTarget) return
           setShowOptions(true)
         }}
-        onBlur={evt => {
+        onBlur={() => {
           // if (evt.relatedTarget) return
           // setShowOptions(false)
         }}
