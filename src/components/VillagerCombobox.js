@@ -15,14 +15,14 @@ function Chip({ text, onDelete = () => {} }) {
   )
 }
 
-function Input({ placeholder, id, labelText, clearable = false, onClear, ...rest }) {
+function Input({ placeholder, id, labelText, clearable = false, onClear, style, ...rest }) {
   const inputRef = useRef()
   return (
     <Fragment>
       <label htmlFor={id}>
         <small>{labelText}</small>
       </label>
-      <div className="input-wrapper">
+      <div className="input-wrapper" style={style}>
         <input ref={inputRef} type="text" id={id} placeholder={placeholder} {...rest} />
         {clearable ? (
           <button
@@ -57,7 +57,7 @@ export function VillagerCombobox({
   const fuzzyMatcher = new RegExp([...inputText].join(`.*`), `i`)
   const filteredVillagers = allVillagers?.filter(villager => fuzzyMatcher.test(villager.name)) ?? []
   return (
-    <div>
+    <div className="combobox-wrapper">
       <Input
         id={id}
         placeholder={placeholder}
@@ -67,6 +67,14 @@ export function VillagerCombobox({
           setInputText(evt.target.value)
           if (!showOptions) setShowOptions(true)
         }}
+        style={
+          showOptions
+            ? {
+                borderBottomLeftRadius: 0,
+                borderBottomRightRadius: 0,
+              }
+            : undefined
+        }
         clearable={inputText.length || showOptions}
         onClear={() => {
           if (showOptions) {
@@ -81,31 +89,70 @@ export function VillagerCombobox({
           setShowOptions(true)
         }}
         onBlur={evt => {
-          console.log(evt)
-          if (evt.relatedTarget) return
-          setShowOptions(false)
+          // if (evt.relatedTarget) return
+          // setShowOptions(false)
         }}
         onClick={() => {
           if (!showOptions) setShowOptions(true)
         }}
+        // FIXME: Actual functionality
+        onKeyDown={evt => {
+          switch (evt.code) {
+            case `ArrowDown`:
+            case `ArrowUp`:
+            case `Enter`:
+              console.log(`Key down`)
+          }
+        }}
       />
       {/* Popup */}
       {showOptions ? (
-        <div>
-          <ul>
+        <div className="options-wrapper">
+          <ul className="options-list">
             {filteredVillagers.map(villager => (
-              <li key={villager.id}>
-                <button
-                  type="button"
-                  onClick={() => {
-                    console.log(villager)
-                  }}
-                >
-                  {villager.name}
-                </button>
+              // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions
+              <li
+                key={villager.id}
+                className={`option ${selectedVillagers.includes(villager.id) ? `selected` : ``}`}
+                onClick={() => {
+                  onSelect(villager)
+                  if (multiSelect) {
+                    if (selectedVillagers.includes(villager.id)) {
+                      const index = selectedVillagers.indexOf(villager.id)
+                      const newList = [...selectedVillagers]
+                      newList.splice(index, 1)
+                      setSelectedVillagers(newList)
+                    } else {
+                      setSelectedVillagers([...selectedVillagers, villager.id])
+                    }
+                  } else {
+                    setInputText(villager.name)
+                    setShowOptions(false)
+                  }
+                  // FIXME: This should focus back to the input
+                }}
+              >
+                {villager.name}
               </li>
             ))}
           </ul>
+        </div>
+      ) : null}
+      {selectedVillagers.length ? (
+        <div className="chip-container">
+          {selectedVillagers.map(villagerId => {
+            const villager = allVillagers.find(v => v.id === villagerId)
+            return (
+              <Chip
+                key={villagerId}
+                text={villager.name}
+                onDelete={() => {
+                  onDeselect(allVillagers.find(v => v.id === villagerId))
+                  setSelectedVillagers(selectedVillagers.filter(v => v !== villagerId))
+                }}
+              />
+            )
+          })}
         </div>
       ) : null}
     </div>

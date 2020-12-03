@@ -2,18 +2,22 @@
   --acnh-color-brown #936826
   --acnh-color-yellow #f4c52f
   for num in (1..15)
-    --background-color-{num * 5 + 10} hsl(45.7, 15%, num * 5 + 10)
+    --bg-color-{num * 5 + 10} hsl(45.7, 15%, num * 5 + 10)
+
+// Preventing ugly layout shift when page goes from nonscrollable to scrollable
+html
+  overflow-y scroll
 
 *
   box-sizing border-box
 
 body
-  background-color var(--background-color-15)
+  background-color var(--bg-color-15)
   margin 0
   font-family Montserrat, sans-serif
 
 #root
-  background-color var(--background-color-20)
+  background-color var(--bg-color-20)
   // FIXME: border should only show >= max-width + 4
   border 1px solid var(--acnh-color-yellow)
   border-bottom none

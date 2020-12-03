@@ -20,6 +20,7 @@ import { VillagerCombobox } from './VillagerCombobox'
 // TODO: Break out target, exclude, language, clear cache, etc. into options menu
 // TODO: Footer with copyright, links, etc.
 // TODO: Show loading while villagers load
+// TODO: Combobox on blur
 
 function getRandomVillagers(villagers, { target, exclusions = [] } = {}) {
   if (!villagers) return villagers
@@ -54,7 +55,10 @@ export default function App() {
             placeholder="Type villager's name"
             id="targetVillager"
             labelText="Target Villager (Free Space)"
-            onSelect={villager => setSelectedTarget(villager)}
+            onSelect={villager => {
+              console.log(`selection`, villager)
+              setSelectedTarget(villager)
+            }}
           />
           <VillagerCombobox
             multiSelect

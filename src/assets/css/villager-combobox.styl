@@ -1,5 +1,5 @@
 [data-reach-combobox-input]
-  background-color var(--background-color-35)
+  background-color var(--bg-color-35)
   border 1px solid var(--acnh-color-yellow)
   border-radius 6px
   color #ecebea
@@ -23,7 +23,7 @@
 // Wrapper around list
 [data-reach-combobox-popover]
   border 1px solid var(--acnh-color-yellow)
-  background-color var(--background-color-35)
+  background-color var(--bg-color-35)
   color #fff
 
 // Inner list element
@@ -48,23 +48,64 @@
     opacity 0.7
 
 
-.selected
-  align-items center
-  background-color var(--acnh-color-yellow)
-  color #000
-  display grid
-  font-weight bold
-  grid-column-gap 0.25em
-  grid-template-columns auto auto
-  justify-content start
+  .selected
+    align-items center
+    background-color var(--acnh-color-yellow)
+    color #000
+    display grid
+    font-weight bold
+    grid-column-gap 0.25em
+    grid-template-columns auto auto
+    justify-content start
 
-  &::after
-    content '✔'
+    &::after
+      content '✔'
+
+
+.combobox-wrapper
+  position relative
+
+.options-wrapper
+  background-color var(--bg-color-35)
+  border 1px solid var(--acnh-color-yellow)
+  box-shadow 0 0 0 2.5px var(--acnh-color-yellow)
+  max-height 150px
+  overflow auto
+  position absolute
+  width 100%
+  z-index 1
+
+  .options-list
+    list-style none
+    margin 0
+    padding 0
+
+    .option
+      cursor pointer
+      padding 0.25em 0.5em
+
+      &.selected
+        align-items center
+        background-color var(--acnh-color-yellow)
+        color #000
+        display grid
+        font-weight bold
+        grid-column-gap 0.25em
+        grid-template-columns auto auto
+        justify-content start
+
+        &::after
+          content '✔'
+
+      &:hover
+        background-color var(--acnh-color-yellow)
+        color #000
+        opacity 0.75
 
 // Input styles (separated for ease of breaking out if Input needs to be reusable)
 .input-wrapper
   align-items center
-  background-color var(--background-color-35)
+  background-color var(--bg-color-35)
   border 1px solid var(--acnh-color-yellow)
   border-radius 6px
   color #eee
