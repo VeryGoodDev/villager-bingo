@@ -1,7 +1,7 @@
 import { Combobox, ComboboxInput, ComboboxList, ComboboxOption, ComboboxPopover } from '@reach/combobox'
 // import '@reach/combobox/styles.css'
 import { Fragment, h } from 'preact'
-import { useEffect, useRef, useState } from 'preact/hooks'
+import { useCallback, useEffect, useRef, useState } from 'preact/hooks'
 import useVillagers from './useVillagers'
 
 function Chip({ text, onDelete = () => {} }) {
@@ -15,8 +15,7 @@ function Chip({ text, onDelete = () => {} }) {
   )
 }
 
-function Input({ placeholder, id, labelText, clearable = false, onClear, style, ...rest }) {
-  const inputRef = useRef()
+function Input({ placeholder, id, labelText, clearable = false, onClear, style, inputRef, ...rest }) {
   return (
     <Fragment>
       <label htmlFor={id}>
@@ -55,6 +54,7 @@ export function VillagerCombobox({
   const [selectedVillagers, setSelectedVillagers] = useState([])
   const [highlightedIndex, setHighlightedIndex] = useState(-1)
   const highlightedRef = useRef()
+  const inputRef = useRef()
   const allVillagers = useVillagers()
   const fuzzyMatcher = new RegExp([...inputText].join(`.*`), `i`)
   const filteredVillagers = allVillagers?.filter(villager => fuzzyMatcher.test(villager.name)) ?? []
@@ -74,19 +74,23 @@ export function VillagerCombobox({
       setShowOptions(false)
       setHighlightedIndex(-1)
     }
-    // FIXME: This should focus back to the input
+    // eslint-disable-next-line babel/no-unused-expressions
+    inputRef.current?.focus()
   }
-  const handleEscape = evt => {
-    if (evt.code === `Escape`) {
-      setShowOptions(false)
-      window.removeEventListener(`keydown`, handleEscape)
-    }
-  }
+  const handleEscape = useCallback(
+    evt => {
+      if (evt.code === `Escape`) {
+        setShowOptions(false)
+        window.removeEventListener(`keydown`, handleEscape)
+      }
+    },
+    [setShowOptions]
+  )
   useEffect(() => {
     if (showOptions) {
       window.addEventListener(`keydown`, handleEscape)
     }
-  }, [showOptions])
+  }, [showOptions, handleEscape])
   // FIXME: Find a way to do this where I can have a clear conscience
   useEffect(() => {
     if (!highlightedRef.current) return
@@ -104,6 +108,7 @@ export function VillagerCombobox({
   return (
     <div className="combobox-wrapper">
       <Input
+        inputRef={inputRef}
         id={id}
         placeholder={placeholder}
         labelText={labelText}
