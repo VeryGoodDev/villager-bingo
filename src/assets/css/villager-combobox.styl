@@ -42,7 +42,8 @@
     padding 0.25em 0.5em
 
   // TODO: Find right background colors (shades of --acnh-color-yellow)
-  &:hover
+  &:hover,
+  &[aria-selected="true"]
     background-color var(--acnh-color-yellow)
     color #000
     opacity 0.7
@@ -96,6 +97,11 @@
 
         &::after
           content '✔'
+
+      &.highlighted
+        background-color var(--acnh-color-yellow)
+        color #000
+        opacity 0.75
 
       &:hover
         background-color var(--acnh-color-yellow)

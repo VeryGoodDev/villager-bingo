@@ -1,7 +1,7 @@
 import { Combobox, ComboboxInput, ComboboxList, ComboboxOption, ComboboxPopover } from '@reach/combobox'
 // import '@reach/combobox/styles.css'
 import { Fragment, h } from 'preact'
-import { useRef, useState } from 'preact/hooks'
+import { useEffect, useRef, useState } from 'preact/hooks'
 import useVillagers from './useVillagers'
 
 function Chip({ text, onDelete = () => {} }) {
@@ -53,9 +53,54 @@ export function VillagerCombobox({
   const [inputText, setInputText] = useState(``)
   const [showOptions, setShowOptions] = useState(false)
   const [selectedVillagers, setSelectedVillagers] = useState([])
+  const [highlightedIndex, setHighlightedIndex] = useState(-1)
+  const highlightedRef = useRef()
   const allVillagers = useVillagers()
   const fuzzyMatcher = new RegExp([...inputText].join(`.*`), `i`)
   const filteredVillagers = allVillagers?.filter(villager => fuzzyMatcher.test(villager.name)) ?? []
+  const handleSelect = villager => {
+    onSelect(villager)
+    if (multiSelect) {
+      if (selectedVillagers.includes(villager.id)) {
+        const index = selectedVillagers.indexOf(villager.id)
+        const newList = [...selectedVillagers]
+        newList.splice(index, 1)
+        setSelectedVillagers(newList)
+      } else {
+        setSelectedVillagers([...selectedVillagers, villager.id])
+      }
+    } else {
+      setInputText(villager.name)
+      setShowOptions(false)
+      setHighlightedIndex(-1)
+    }
+    // FIXME: This should focus back to the input
+  }
+  const handleEscape = evt => {
+    if (evt.code === `Escape`) {
+      setShowOptions(false)
+      window.removeEventListener(`keydown`, handleEscape)
+    }
+  }
+  useEffect(() => {
+    if (showOptions) {
+      window.addEventListener(`keydown`, handleEscape)
+    }
+  }, [showOptions])
+  // FIXME: Find a way to do this where I can have a clear conscience
+  useEffect(() => {
+    if (!highlightedRef.current) return
+    const {
+      scrollTop: parentScrollTop,
+      offsetHeight: parentOffsetHeight,
+    } = highlightedRef.current.parentElement.parentElement
+    const { offsetTop: optionOffsetTop, offsetHeight: optionOffsetHeight } = highlightedRef.current
+    if (optionOffsetTop + optionOffsetHeight > parentScrollTop + parentOffsetHeight) {
+      highlightedRef.current.scrollIntoView(false)
+    } else if (optionOffsetTop < parentScrollTop) {
+      highlightedRef.current.scrollIntoView()
+    }
+  }, [highlightedRef.current])
   return (
     <div className="combobox-wrapper">
       <Input
@@ -99,9 +144,14 @@ export function VillagerCombobox({
         onKeyDown={evt => {
           switch (evt.code) {
             case `ArrowDown`:
+              setHighlightedIndex(prev => (prev === filteredVillagers.length - 1 ? 0 : prev + 1))
+              break
             case `ArrowUp`:
+              setHighlightedIndex(prev => (prev === 0 ? filteredVillagers.length - 1 : prev - 1))
+              break
             case `Enter`:
-              console.log(`Key down`)
+              handleSelect(filteredVillagers[highlightedIndex])
+              break
           }
         }}
       />
@@ -109,28 +159,15 @@ export function VillagerCombobox({
       {showOptions ? (
         <div className="options-wrapper">
           <ul className="options-list">
-            {filteredVillagers.map(villager => (
+            {filteredVillagers.map((villager, idx) => (
               // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions
               <li
+                ref={highlightedIndex === idx ? highlightedRef : undefined}
                 key={villager.id}
-                className={`option ${selectedVillagers.includes(villager.id) ? `selected` : ``}`}
-                onClick={() => {
-                  onSelect(villager)
-                  if (multiSelect) {
-                    if (selectedVillagers.includes(villager.id)) {
-                      const index = selectedVillagers.indexOf(villager.id)
-                      const newList = [...selectedVillagers]
-                      newList.splice(index, 1)
-                      setSelectedVillagers(newList)
-                    } else {
-                      setSelectedVillagers([...selectedVillagers, villager.id])
-                    }
-                  } else {
-                    setInputText(villager.name)
-                    setShowOptions(false)
-                  }
-                  // FIXME: This should focus back to the input
-                }}
+                className={`option ${selectedVillagers.includes(villager.id) ? `selected` : ``} ${
+                  highlightedIndex === idx ? `highlighted` : ``
+                }`}
+                onClick={() => handleSelect(villager)}
               >
                 {villager.name}
               </li>
