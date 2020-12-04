@@ -21,6 +21,7 @@ import { VillagerCombobox } from './VillagerCombobox'
 // TODO: Footer with copyright, links, etc.
 // TODO: Show loading while villagers load
 // TODO: Combobox on blur
+// TODO: Single select VillagerCombobox better selection display
 
 function getRandomVillagers(villagers, { target, exclusions = [] } = {}) {
   if (!villagers) return villagers
