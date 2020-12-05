@@ -16,7 +16,7 @@ import { VillagerCombobox } from './VillagerCombobox'
 // TODO: Use browser language/user selected for names (villager data has multiple, use navigator.languages)
 // TODO: Break out target, exclude, language, clear cache, etc. into options menu
 // TODO: Show loading while villagers load
-// TODO: Support multiple bingos
+// TODO: Support multiple bingo cards
 
 function getRandomVillagers(villagers, { target, exclusions = [] } = {}) {
   if (!villagers) return villagers
