@@ -9,15 +9,14 @@ import { VillagerCombobox } from './VillagerCombobox'
 // TODO: Print options w/ and w/o images
 // TODO: Investigate caching images as base64 strings
 // TODO: Mobile
-// TODO: Make free square clearable
 // TODO: Exclusions max length = villagers.length - 25
 // TODO: No free space selection in exclusions and vice versa
 // TODO: Bingo detection (count total bingos)
 // TODO: Maybe look into PWA-ifying
 // TODO: Use browser language/user selected for names (villager data has multiple, use navigator.languages)
 // TODO: Break out target, exclude, language, clear cache, etc. into options menu
-// TODO: Footer with copyright, links, etc.
 // TODO: Show loading while villagers load
+// TODO: Support multiple bingos
 
 function getRandomVillagers(villagers, { target, exclusions = [] } = {}) {
   if (!villagers) return villagers
@@ -63,7 +62,6 @@ export default function App() {
             id="excludeVillagers"
             labelText="Exclude Villager(s)"
             onSelect={villager => {
-              // FIXME: Exclusions should never prevent a full 25 villager card from generating
               if (exclusions.includes(villager)) {
                 setExclusions(exclusions.filter(v => v !== villager))
               } else {
