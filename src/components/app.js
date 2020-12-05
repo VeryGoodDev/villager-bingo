@@ -6,8 +6,6 @@ import BingoCard from './BingoCard'
 import useVillagers from './useVillagers'
 import { VillagerCombobox } from './VillagerCombobox'
 
-// TODO: Use indexedDB for caching villager data
-// TODO: General styling
 // TODO: Print options w/ and w/o images
 // TODO: Investigate caching images as base64 strings
 // TODO: Mobile

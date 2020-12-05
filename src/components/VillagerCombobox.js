@@ -55,6 +55,8 @@ export function VillagerCombobox({
   const [highlightedIndex, setHighlightedIndex] = useState(-1)
   const highlightedRef = useRef()
   const inputRef = useRef()
+  const optionsWrapperRef = useRef()
+  const comboboxRef = useRef()
   const allVillagers = useVillagers()
   const fuzzyMatcher = new RegExp([...inputText].join(`.*`), `i`)
   const filteredVillagers = allVillagers?.filter(villager => fuzzyMatcher.test(villager.name)) ?? []
@@ -76,28 +78,30 @@ export function VillagerCombobox({
     }
     // eslint-disable-next-line babel/no-unused-expressions
     inputRef.current?.focus()
+    setShowOptions(true)
   }
-  const handleEscape = useCallback(
-    evt => {
-      if (evt.code === `Escape`) {
-        setShowOptions(false)
-        window.removeEventListener(`keydown`, handleEscape)
-      }
-    },
-    [setShowOptions]
-  )
+  const handleEscape = useCallback(evt => {
+    if (evt.code === `Escape`) {
+      setShowOptions(false)
+      window.removeEventListener(`keydown`, handleEscape)
+    }
+  }, [])
+  const handleHackyBlur = useCallback(evt => {
+    if (!comboboxRef.current?.contains(evt.target)) {
+      setShowOptions(false)
+      document.removeEventListener(`click`, handleHackyBlur)
+    }
+  }, [])
   useEffect(() => {
     if (showOptions) {
       window.addEventListener(`keydown`, handleEscape)
+      document.addEventListener(`click`, handleHackyBlur)
     }
-  }, [showOptions, handleEscape])
+  }, [showOptions, handleEscape, handleHackyBlur])
   // FIXME: Find a way to do this where I can have a clear conscience
   useEffect(() => {
-    if (!highlightedRef.current) return
-    const {
-      scrollTop: parentScrollTop,
-      offsetHeight: parentOffsetHeight,
-    } = highlightedRef.current.parentElement.parentElement
+    if (!showOptions || !highlightedRef.current) return
+    const { scrollTop: parentScrollTop, offsetHeight: parentOffsetHeight } = optionsWrapperRef.current
     const { offsetTop: optionOffsetTop, offsetHeight: optionOffsetHeight } = highlightedRef.current
     if (optionOffsetTop + optionOffsetHeight > parentScrollTop + parentOffsetHeight) {
       highlightedRef.current.scrollIntoView(false)
@@ -106,7 +110,7 @@ export function VillagerCombobox({
     }
   }, [highlightedRef.current])
   return (
-    <div className="combobox-wrapper">
+    <div ref={comboboxRef} className="combobox-wrapper">
       <Input
         inputRef={inputRef}
         id={id}
@@ -139,6 +143,7 @@ export function VillagerCombobox({
           setShowOptions(true)
         }}
         onBlur={() => {
+          // console.log(evt)
           // if (evt.relatedTarget) return
           // setShowOptions(false)
         }}
@@ -162,7 +167,7 @@ export function VillagerCombobox({
       />
       {/* Popup */}
       {showOptions ? (
-        <div className="options-wrapper">
+        <div ref={optionsWrapperRef} className="options-wrapper">
           <ul className="options-list">
             {filteredVillagers.map((villager, idx) => (
               // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions
@@ -172,7 +177,10 @@ export function VillagerCombobox({
                 className={`option ${selectedVillagers.includes(villager.id) ? `selected` : ``} ${
                   highlightedIndex === idx ? `highlighted` : ``
                 }`}
-                onClick={() => handleSelect(villager)}
+                onClick={() => {
+                  console.log(`click`)
+                  handleSelect(villager)
+                }}
               >
                 {villager.name}
               </li>
