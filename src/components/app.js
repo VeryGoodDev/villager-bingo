@@ -52,10 +52,7 @@ export default function App() {
             placeholder="Type villager's name"
             id="targetVillager"
             labelText="Target Villager (Free Space)"
-            onSelect={villager => {
-              console.log(`selection`, villager)
-              setSelectedTarget(villager)
-            }}
+            onSelect={villager => setSelectedTarget(villager)}
             onDeselect={() => {
               setSelectedTarget(null)
             }}

@@ -1,4 +1,3 @@
-import { Combobox, ComboboxInput, ComboboxList, ComboboxOption, ComboboxPopover } from '@reach/combobox'
 // import '@reach/combobox/styles.css'
 import { Fragment, h } from 'preact'
 import { useCallback, useEffect, useRef, useState } from 'preact/hooks'
@@ -164,7 +163,6 @@ export function VillagerCombobox({
           }
         }}
         onFocus={evt => {
-          console.log(evt.relatedTarget)
           if (evt.relatedTarget) return
           setShowOptions(true)
         }}
@@ -200,10 +198,7 @@ export function VillagerCombobox({
                 className={`option ${selectedVillagers.includes(villager.id) ? `selected` : ``} ${
                   highlightedIndex === idx ? `highlighted` : ``
                 }`}
-                onClick={() => {
-                  console.log(`click`)
-                  handleSelect(villager)
-                }}
+                onClick={() => handleSelect(villager)}
               >
                 {villager.name}
               </li>
@@ -214,92 +209,6 @@ export function VillagerCombobox({
       {selectedVillagers.length ? (
         <div className="chip-container">
           <Chip text="Clear All" onClick={() => setSelectedVillagers([])} />
-          {selectedVillagers.map(villagerId => {
-            const villager = allVillagers.find(v => v.id === villagerId)
-            return (
-              <Chip
-                key={villagerId}
-                text={villager.name}
-                onDelete={() => {
-                  onDeselect(allVillagers.find(v => v.id === villagerId))
-                  setSelectedVillagers(selectedVillagers.filter(v => v !== villagerId))
-                }}
-              />
-            )
-          })}
-        </div>
-      ) : null}
-    </div>
-  )
-}
-
-export default function VillagerComboboxReach({
-  placeholder,
-  id,
-  labelText,
-  onSelect = () => {},
-  multiSelect = false,
-  onDeselect = () => {},
-}) {
-  const [inputText, setInputText] = useState(``)
-  const [selectedVillagers, setSelectedVillagers] = useState([])
-  const inputRef = useRef()
-  const allVillagers = useVillagers()
-  const fuzzyMatcher = new RegExp([...inputText].join(`.*`), `i`)
-  const filteredVillagers = allVillagers?.filter(villager => fuzzyMatcher.test(villager.name)) ?? []
-  return (
-    <div>
-      <label htmlFor={id}>
-        <small>{labelText}</small>
-      </label>
-      {/* FIXME: Combobox doesn't quite fill the need, make my own eventually */}
-      {/* Maybe look at Adobe Spectrum listbox for options list? */}
-      {/* Also I want an X button at the right of the input */}
-      <Combobox
-        onSelect={selectedId => {
-          const selection = allVillagers.find(villager => villager.id === selectedId)
-          onSelect(selection)
-          if (multiSelect) {
-            if (selectedVillagers.includes(selection.id)) {
-              const index = selectedVillagers.indexOf(selection.id)
-              const newList = [...selectedVillagers]
-              newList.splice(index, 1)
-              setSelectedVillagers(newList)
-            } else {
-              setSelectedVillagers([...selectedVillagers, selection.id])
-            }
-          } else {
-            setInputText(selection.name)
-          }
-        }}
-      >
-        <ComboboxInput
-          ref={inputRef}
-          id={id}
-          autocomplete={false}
-          value={inputText}
-          onChange={evt => setInputText(evt.target.value)}
-          placeholder={placeholder}
-        />
-        <ComboboxPopover style={{ maxHeight: 300, overflow: `auto` }}>
-          {filteredVillagers.length ? (
-            <ComboboxList>
-              {filteredVillagers.map(villager => (
-                <ComboboxOption key={villager.id} value={villager.id}>
-                  <div className={selectedVillagers.includes(villager.id) ? `selected` : ``}>
-                    <span>{villager.name}</span>
-                    {/* {multiSelect && selectedVillagers.includes(villager.id) ? <span></span> : null} */}
-                  </div>
-                </ComboboxOption>
-              ))}
-            </ComboboxList>
-          ) : (
-            `No matches found for ${inputText}`
-          )}
-        </ComboboxPopover>
-      </Combobox>
-      {selectedVillagers.length ? (
-        <div className="chip-container">
           {selectedVillagers.map(villagerId => {
             const villager = allVillagers.find(v => v.id === villagerId)
             return (
