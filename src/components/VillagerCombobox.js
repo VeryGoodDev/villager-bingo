@@ -4,7 +4,14 @@ import { Fragment, h } from 'preact'
 import { useCallback, useEffect, useRef, useState } from 'preact/hooks'
 import useVillagers from './useVillagers'
 
-function Chip({ text, onDelete = () => {} }) {
+function Chip({ text, onDelete = () => {}, onClick }) {
+  if (typeof onClick === `function`) {
+    return (
+      <button type="button" className="chip" onClick={onClick}>
+        <small>{text}</small>
+      </button>
+    )
+  }
   return (
     <div className="chip">
       <small>{text}</small>
@@ -71,14 +78,13 @@ export function VillagerCombobox({
       } else {
         setSelectedVillagers([...selectedVillagers, villager.id])
       }
+      // eslint-disable-next-line babel/no-unused-expressions
+      inputRef.current?.focus()
     } else {
       setInputText(villager.name)
       setShowOptions(false)
       setHighlightedIndex(-1)
     }
-    // eslint-disable-next-line babel/no-unused-expressions
-    inputRef.current?.focus()
-    setShowOptions(true)
   }
   const handleEscape = useCallback(evt => {
     if (evt.code === `Escape`) {
@@ -137,15 +143,10 @@ export function VillagerCombobox({
             setInputText(``)
           }
         }}
-        // FIXME: This fights with the default clear behavior
         onFocus={evt => {
+          console.log(evt.relatedTarget)
           if (evt.relatedTarget) return
           setShowOptions(true)
-        }}
-        onBlur={() => {
-          // console.log(evt)
-          // if (evt.relatedTarget) return
-          // setShowOptions(false)
         }}
         onClick={() => {
           if (!showOptions) setShowOptions(true)
@@ -190,6 +191,7 @@ export function VillagerCombobox({
       ) : null}
       {selectedVillagers.length ? (
         <div className="chip-container">
+          <Chip text="Clear All" onClick={() => setSelectedVillagers([])} />
           {selectedVillagers.map(villagerId => {
             const villager = allVillagers.find(v => v.id === villagerId)
             return (

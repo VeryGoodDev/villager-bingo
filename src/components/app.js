@@ -18,7 +18,6 @@ import { VillagerCombobox } from './VillagerCombobox'
 // TODO: Break out target, exclude, language, clear cache, etc. into options menu
 // TODO: Footer with copyright, links, etc.
 // TODO: Show loading while villagers load
-// TODO: Combobox on blur
 // TODO: Single select VillagerCombobox better selection display
 
 function getRandomVillagers(villagers, { target, exclusions = [] } = {}) {
