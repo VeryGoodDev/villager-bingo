@@ -17,6 +17,7 @@ import { VillagerCombobox } from './VillagerCombobox'
 // TODO: Break out target, exclude, language, clear cache, etc. into options menu
 // TODO: Show loading while villagers load
 // TODO: Support multiple bingo cards
+// TODO: Look into combining focus/blur inside VillagerCombobox custom Input for proper blur handling
 
 function getRandomVillagers(villagers, { target, exclusions = [] } = {}) {
   if (!villagers) return villagers
