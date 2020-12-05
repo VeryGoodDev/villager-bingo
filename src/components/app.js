@@ -116,6 +116,7 @@ export default function App() {
         </div>
         <div>
           Villager data provided by{` `}
+          {/* eslint-disable-next-line react/jsx-no-target-blank */}
           <a href="https://acnhapi.com/" target="_blank" rel="noopener">
             ACNH API
           </a>
