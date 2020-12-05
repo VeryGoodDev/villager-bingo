@@ -27,7 +27,7 @@ body
   grid-row-gap 0.5em
   grid-column-gap 2em
   grid-template-columns 1fr 2fr
-  grid-template-rows auto auto 1fr
+  grid-template-rows 1fr auto
   justify-content center
   margin 0 auto
   max-width 750px
@@ -131,6 +131,17 @@ label
 
 button
   cursor pointer
+
+footer
+  display grid
+  font-size 12px
+  grid-column 1 / -1
+  grid-row-gap 0.125em
+  justify-items center
+  margin 5em auto 0
+
+  a
+    color inherit
 
 [hidden]
   display none !important

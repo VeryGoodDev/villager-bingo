@@ -106,6 +106,21 @@ export default function App() {
         </div>
       </div>
       {!showCard ? null : <BingoCard villagers={villagers} />}
+      <footer>
+        <div>
+          &copy; {new Date().getFullYear()}
+          {` `}
+          <a href="https://twitter.com/_verygooddev" target="_blank" rel="noreferrer noopener">
+            VeryGoodDev
+          </a>
+        </div>
+        <div>
+          Villager data provided by{` `}
+          <a href="https://acnhapi.com/" target="_blank" rel="noopener">
+            ACNH API
+          </a>
+        </div>
+      </footer>
     </Fragment>
   )
 }
