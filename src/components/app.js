@@ -18,7 +18,6 @@ import { VillagerCombobox } from './VillagerCombobox'
 // TODO: Break out target, exclude, language, clear cache, etc. into options menu
 // TODO: Footer with copyright, links, etc.
 // TODO: Show loading while villagers load
-// TODO: Single select VillagerCombobox better selection display
 
 function getRandomVillagers(villagers, { target, exclusions = [] } = {}) {
   if (!villagers) return villagers
@@ -56,6 +55,9 @@ export default function App() {
             onSelect={villager => {
               console.log(`selection`, villager)
               setSelectedTarget(villager)
+            }}
+            onDeselect={() => {
+              setSelectedTarget(null)
             }}
           />
           <VillagerCombobox

@@ -22,14 +22,31 @@ function Chip({ text, onDelete = () => {}, onClick }) {
   )
 }
 
-function Input({ placeholder, id, labelText, clearable = false, onClear, style, inputRef, ...rest }) {
+function Input({
+  placeholder,
+  id,
+  labelText,
+  clearable = false,
+  onClear,
+  style,
+  inputRef,
+  readOnly = false,
+  readOnlyText,
+  readOnlyDelete,
+  ...rest
+}) {
+  const readOnlyStyles = { display: `block` }
   return (
     <Fragment>
       <label htmlFor={id}>
         <small>{labelText}</small>
       </label>
-      <div className="input-wrapper" style={style}>
-        <input ref={inputRef} type="text" id={id} placeholder={placeholder} {...rest} />
+      <div className="input-wrapper" style={readOnly ? { ...style, ...readOnlyStyles } : style}>
+        {readOnly ? (
+          <Chip text={readOnlyText} onDelete={readOnlyDelete} />
+        ) : (
+          <input ref={inputRef} type="text" id={id} placeholder={placeholder} {...rest} />
+        )}
         {clearable ? (
           <button
             type="button"
@@ -60,6 +77,8 @@ export function VillagerCombobox({
   const [showOptions, setShowOptions] = useState(false)
   const [selectedVillagers, setSelectedVillagers] = useState([])
   const [highlightedIndex, setHighlightedIndex] = useState(-1)
+  const [readOnly, setReadOnly] = useState(false)
+  const [readOnlyText, setReadOnlyText] = useState(``)
   const highlightedRef = useRef()
   const inputRef = useRef()
   const optionsWrapperRef = useRef()
@@ -81,7 +100,8 @@ export function VillagerCombobox({
       // eslint-disable-next-line babel/no-unused-expressions
       inputRef.current?.focus()
     } else {
-      setInputText(villager.name)
+      setReadOnly(true)
+      setReadOnlyText(villager.name)
       setShowOptions(false)
       setHighlightedIndex(-1)
     }
@@ -151,7 +171,6 @@ export function VillagerCombobox({
         onClick={() => {
           if (!showOptions) setShowOptions(true)
         }}
-        // FIXME: Actual functionality
         onKeyDown={evt => {
           switch (evt.code) {
             case `ArrowDown`:
@@ -165,6 +184,9 @@ export function VillagerCombobox({
               break
           }
         }}
+        readOnly={readOnly}
+        readOnlyText={readOnlyText}
+        readOnlyDelete={() => setReadOnly(false)}
       />
       {/* Popup */}
       {showOptions ? (
