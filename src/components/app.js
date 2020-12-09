@@ -1,5 +1,5 @@
 import { Fragment, h } from 'preact'
-import { useState } from 'preact/hooks'
+import { useEffect, useState } from 'preact/hooks'
 import '../assets/css/villager-combobox.styl'
 import { random } from '../util/math'
 import BingoCard from './BingoCard'
@@ -18,9 +18,10 @@ import { VillagerCombobox } from './VillagerCombobox'
 // TODO: Show loading while villagers load
 // TODO: Support multiple bingo cards
 // TODO: Look into combining focus/blur inside VillagerCombobox custom Input for proper blur handling
+// TODO: Screen reader a11y for VillagerCombobox
 
 function getRandomVillagers(villagers, { target, exclusions = [] } = {}) {
-  if (!villagers) return villagers
+  if (!villagers?.length) return villagers
   const max = target ? 24 : 25
   const indexSet = new Set()
   const targetIndex = villagers.findIndex(v => v.id === target?.id)
@@ -42,7 +43,12 @@ export default function App() {
   const [villagers, setVillagers] = useState(null)
   const [selectedTarget, setSelectedTarget] = useState(null)
   const [exclusions, setExclusions] = useState([])
+  const [exclusionMax, setExclusionMax] = useState(0)
   const allVillagers = useVillagers()
+  const villagerCount = allVillagers?.length ?? 0
+  useEffect(() => {
+    setExclusionMax(villagerCount - 25)
+  }, [villagerCount])
   return (
     <Fragment>
       <div className="sidebar">
@@ -56,6 +62,7 @@ export default function App() {
             onDeselect={() => {
               setSelectedTarget(null)
             }}
+            filter={villager => !exclusions.find(v => v.id === villager.id)}
           />
           <VillagerCombobox
             multiSelect
@@ -72,6 +79,9 @@ export default function App() {
             onDeselect={villager => {
               setExclusions(exclusions.filter(v => v !== villager))
             }}
+            onClearAll={() => setExclusions([])}
+            disabled={exclusions.length === exclusionMax}
+            filter={villager => (selectedTarget ? selectedTarget.id !== villager.id : true)}
           />
           <button
             type="button"

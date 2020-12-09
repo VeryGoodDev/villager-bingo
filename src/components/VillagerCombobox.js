@@ -32,19 +32,23 @@ function Input({
   readOnly = false,
   readOnlyText,
   readOnlyDelete,
+  disabled,
   ...rest
 }) {
   const readOnlyStyles = { display: `block` }
   return (
     <Fragment>
-      <label htmlFor={id}>
+      <label htmlFor={id} className={disabled ? `disabled` : ``}>
         <small>{labelText}</small>
       </label>
-      <div className="input-wrapper" style={readOnly ? { ...style, ...readOnlyStyles } : style}>
+      <div
+        className={[`input-wrapper`, disabled ? `disabled` : ``].join(` `)}
+        style={readOnly ? { ...style, ...readOnlyStyles } : style}
+      >
         {readOnly ? (
           <Chip text={readOnlyText} onDelete={readOnlyDelete} />
         ) : (
-          <input ref={inputRef} type="text" id={id} placeholder={placeholder} {...rest} />
+          <input ref={inputRef} type="text" id={id} placeholder={placeholder} disabled={disabled} {...rest} />
         )}
         {clearable ? (
           <button
@@ -71,6 +75,9 @@ export function VillagerCombobox({
   onSelect = () => {},
   multiSelect = false,
   onDeselect = () => {},
+  onClearAll = () => {},
+  disabled = false,
+  filter = () => true,
 }) {
   const [inputText, setInputText] = useState(``)
   const [showOptions, setShowOptions] = useState(false)
@@ -84,8 +91,9 @@ export function VillagerCombobox({
   const comboboxRef = useRef()
   const allVillagers = useVillagers()
   const fuzzyMatcher = new RegExp([...inputText].join(`.*`), `i`)
-  const filteredVillagers = allVillagers?.filter(villager => fuzzyMatcher.test(villager.name)) ?? []
+  const filteredVillagers = allVillagers?.filter(villager => filter(villager) && fuzzyMatcher.test(villager.name)) ?? []
   const handleSelect = villager => {
+    if (disabled) return
     onSelect(villager)
     if (multiSelect) {
       if (selectedVillagers.includes(villager.id)) {
@@ -133,7 +141,7 @@ export function VillagerCombobox({
     } else if (optionOffsetTop < parentScrollTop) {
       highlightedRef.current.scrollIntoView()
     }
-  }, [highlightedRef.current])
+  }, [highlightedRef.current, showOptions])
   return (
     <div ref={comboboxRef} className="combobox-wrapper">
       <Input
@@ -142,6 +150,7 @@ export function VillagerCombobox({
         placeholder={placeholder}
         labelText={labelText}
         value={inputText}
+        disabled={disabled}
         onInput={evt => {
           setInputText(evt.target.value)
           if (!showOptions) setShowOptions(true)
@@ -184,10 +193,13 @@ export function VillagerCombobox({
         }}
         readOnly={readOnly}
         readOnlyText={readOnlyText}
-        readOnlyDelete={() => setReadOnly(false)}
+        readOnlyDelete={() => {
+          onDeselect()
+          setReadOnly(false)
+        }}
       />
       {/* Popup */}
-      {showOptions ? (
+      {!disabled && showOptions ? (
         <div ref={optionsWrapperRef} className="options-wrapper">
           <ul className="options-list">
             {filteredVillagers.map((villager, idx) => (
@@ -208,7 +220,13 @@ export function VillagerCombobox({
       ) : null}
       {selectedVillagers.length ? (
         <div className="chip-container">
-          <Chip text="Clear All" onClick={() => setSelectedVillagers([])} />
+          <Chip
+            text="Clear All"
+            onClick={() => {
+              onClearAll?.()
+              setSelectedVillagers([])
+            }}
+          />
           {selectedVillagers.map(villagerId => {
             const villager = allVillagers.find(v => v.id === villagerId)
             return (

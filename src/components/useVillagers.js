@@ -19,7 +19,7 @@ function handleUpgrade(db) {
 }
 
 export default function useVillagers() {
-  const [villagers, setVillagers] = useState(null)
+  const [villagers, setVillagers] = useState([])
   useEffect(() => {
     getDb(`bingo`, { handleUpgrade })
       .then(async db => {
