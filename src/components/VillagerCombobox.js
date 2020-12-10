@@ -1,6 +1,6 @@
-// import '@reach/combobox/styles.css'
 import { Fragment, h } from 'preact'
 import { useCallback, useEffect, useRef, useState } from 'preact/hooks'
+import '../assets/css/villager-combobox.styl'
 import useVillagers from './useVillagers'
 
 function Chip({ text, onDelete = () => {}, onClick }) {
