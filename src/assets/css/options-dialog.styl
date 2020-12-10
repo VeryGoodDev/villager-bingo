@@ -1,0 +1,25 @@
+.scrim
+  background-color var(--bg-color-15)
+  bottom 0
+  left 0
+  opacity 0.75
+  position fixed
+  right 0
+  top 0
+
+.overlay
+  background-color var(--bg-color-25)
+  border-radius 8px
+  box-shadow 4px 4px 8px 4px var(--bg-color-15)
+  color var(--acnh-color-yellow)
+  left 50%
+  max-height calc(100vh - 2em)
+  max-width 350px
+  overflow-y auto
+  position absolute
+  top 50%
+  transform translate(-50%, -50%)
+  width 100vw
+
+  &-contents
+    padding 1em
