@@ -11,13 +11,11 @@ import OptionsDialog from './OptionsDialog'
 // TODO: Bingo detection (count total bingos)
 // TODO: Maybe look into PWA-ifying
 // TODO: Use browser language/user selected for names (villager data has multiple, use navigator.languages)
-// TODO: Break out target, exclude, language, clear cache, etc. into options menu (todos in OptionsDialog.js)
 // TODO: Show loading while villagers/preferences load
 // TODO: Support multiple bingo cards
 // TODO: Look into combining focus/blur inside VillagerCombobox custom Input for proper blur handling
 // TODO: Screen reader a11y for VillagerCombobox
 // TODO: Issues/feedback popup from footer
-// TODO: Use Context to make some state global
 
 function getRandomVillagers(villagers, { target, exclusions = [] } = {}) {
   if (!villagers?.length) return villagers

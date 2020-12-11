@@ -2,6 +2,12 @@
   display grid
   grid-row-gap 1.25em
 
+  .cache-wrapper
+    align-items center
+    display grid
+    grid-column-gap 1em
+    grid-template-columns auto auto
+
 // Overlay styles
 .scrim
   background-color var(--bg-color-15)
@@ -29,6 +35,26 @@
   &-contents
     padding 1em
 
+  .close-btn
+    --size 28px
+    background-color transparent
+    border none
+    border-radius 50%
+    color inherit
+    font-size 16px
+    height var(--size)
+    padding 0 0 1px
+    position absolute
+    right 8px
+    top 8px
+    transition background-color 120ms ease-in-out
+    width var(--size)
+
+    &:focus,
+    &:hover
+      background-color rgba(0, 0, 0, 0.5)
+      outline none
+
 // Checkbox
 .checkbox-wrapper
   align-items center
@@ -36,33 +62,38 @@
   grid-column-gap 4px
   grid-template-columns auto 1fr
 
-  margin-bottom 1em
-
   input
-    display none
+    clip rect(0 0 0 0)
+    clip-path inset(50%)
+    height 1px
+    overflow hidden
+    position absolute
+    white-space nowrap
+    width 1px
 
     &:checked ~ label::before
-      background-image url('../icons/check.svg')
-      background-position center
-      background-repeat no-repeat
       background-size 16px
 
   label
     align-items center
     display grid
-    grid-column-gap 4px
+    grid-column-gap 8px
     grid-template-columns auto 1fr
     margin 0
 
     &::before
-      --size 12px
+      --size 6px
       align-content center
       background-color var(--bg-color-15)
+      background-image url('../icons/check.svg')
+      background-position center
+      background-repeat no-repeat
+      background-size 0
       border-radius 4px
       content ''
       display grid
       justify-content center
       height var(--size)
-      padding 4px
-      transition background-image 1s ease-in-out
+      padding 6px
+      transition background-size 100ms ease-in-out
       width var(--size)

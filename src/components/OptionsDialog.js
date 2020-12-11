@@ -6,10 +6,11 @@ import Portal from './Portal'
 import VillagerCombobox from './VillagerCombobox'
 
 // TODO: Extract generic Overlay for reuse
-// TODO: Turn off cache option
 // TODO: Language selector (default to navigator.languages, then en-US)
-// TODO: Save preferences in localStorage
 // TODO: Animate open/close?
+// TODO: Lock body scroll when open
+// TODO: Close on escape
+// TODO: Trap focus
 
 function Checkbox({ id, labelText, checked, onChange }) {
   return (
@@ -87,8 +88,8 @@ export default function OptionsDialog({ isOpen, handleClose }) {
               ) : null}
             </div>
           </div>
-          <button type="button" onClick={handleClose}>
-            ✖
+          <button type="button" className="close-btn" onClick={handleClose} aria-label="Close dialog">
+            <span aria-hidden>✖</span>
           </button>
         </div>
       </div>
