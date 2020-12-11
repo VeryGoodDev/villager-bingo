@@ -1,25 +1,86 @@
 import { h } from 'preact'
+import { useContext } from 'preact/hooks'
 import '../assets/css/options-dialog.styl'
+import { AppContext } from './AppContext'
 import Portal from './Portal'
+import VillagerCombobox from './VillagerCombobox'
 
-// TODO: Make some state global with Context to use here
 // TODO: Extract generic Overlay for reuse
-// TODO: Target villager select in here
-// TODO: Exclude villager select in here
-// TODO: Clear cache option
 // TODO: Turn off cache option
 // TODO: Language selector (default to navigator.languages, then en-US)
 // TODO: Save preferences in localStorage
 // TODO: Animate open/close?
 
 export default function OptionsDialog({ isOpen, handleClose }) {
+  const {
+    selectedTarget,
+    setSelectedTarget,
+    exclusions,
+    setExclusions,
+    exclusionMax,
+    shouldCacheData,
+    setShouldCacheData,
+  } = useContext(AppContext)
   if (!isOpen) return null
   return (
     <Portal>
       <div className="scrim" />
       <div className="overlay">
         <div className="overlay-contents">
-          <span>Options</span>
+          <div className="options-dialog-wrapper">
+            <span>Options</span>
+            <VillagerCombobox
+              placeholder="Type villager's name"
+              id="targetVillager"
+              labelText="Target Villager (Free Space)"
+              onSelect={villager => setSelectedTarget(villager)}
+              onDeselect={() => {
+                setSelectedTarget(null)
+              }}
+              filter={villager => !exclusions.find(v => v.id === villager.id)}
+            />
+            <VillagerCombobox
+              multiSelect
+              placeholder="Type villager name(s)"
+              id="excludeVillagers"
+              labelText="Exclude Villager(s)"
+              onSelect={villager => {
+                if (exclusions.includes(villager)) {
+                  setExclusions(exclusions.filter(v => v !== villager))
+                } else {
+                  setExclusions([...exclusions, villager])
+                }
+              }}
+              onDeselect={villager => {
+                setExclusions(exclusions.filter(v => v !== villager))
+              }}
+              onClearAll={() => setExclusions([])}
+              disabled={exclusions.length === exclusionMax}
+              filter={villager => (selectedTarget ? selectedTarget.id !== villager.id : true)}
+            />
+            <div className="cache-wrapper">
+              <div>
+                <input
+                  type="checkbox"
+                  id="cacheDataCheckbox"
+                  checked={shouldCacheData}
+                  onChange={() => setShouldCacheData(prev => !prev)}
+                />
+                <label htmlFor="cacheDataCheckbox">Cache Villager Data</label>
+              </div>
+              {shouldCacheData ? (
+                <button
+                  type="button"
+                  onClick={evt => {
+                    indexedDB.deleteDatabase(`bingo`)
+                    evt.target.disabled = true
+                  }}
+                >
+                  Clear Cache
+                </button>
+              ) : null}
+            </div>
+          </div>
           <button type="button" onClick={handleClose}>
             ✖
           </button>

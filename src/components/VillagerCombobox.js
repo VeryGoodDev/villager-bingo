@@ -68,7 +68,7 @@ function Input({
   )
 }
 
-export function VillagerCombobox({
+export default function VillagerCombobox({
   placeholder,
   id,
   labelText,

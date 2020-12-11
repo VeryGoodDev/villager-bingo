@@ -1,10 +1,9 @@
 import { Fragment, h } from 'preact'
-import { useContext, useEffect, useState } from 'preact/hooks'
+import { useContext, useState } from 'preact/hooks'
 import { random } from '../util/math'
 import { AppContext } from './AppContext'
 import BingoCard from './BingoCard'
 import OptionsDialog from './OptionsDialog'
-import { VillagerCombobox } from './VillagerCombobox'
 
 // TODO: Print options w/ and w/o images
 // TODO: Investigate caching images as base64 strings
@@ -39,56 +38,16 @@ function getRandomVillagers(villagers, { target, exclusions = [] } = {}) {
   return indexes.map(idx => villagers[idx])
 }
 export default function App() {
-  const {
-    selectedTarget,
-    setSelectedTarget,
-    exclusions,
-    setExclusions,
-    exclusionMax,
-    setExclusionMax,
-    allVillagers,
-  } = useContext(AppContext)
+  const { selectedTarget, exclusions, allVillagers } = useContext(AppContext)
   const [showCard, setShowCard] = useState(false)
   const [villagers, setVillagers] = useState(null)
   const [optionsOpen, setOptionsOpen] = useState(false)
-  const villagerCount = allVillagers?.length ?? 0
-  useEffect(() => {
-    setExclusionMax(villagerCount - 25)
-  }, [villagerCount])
+
   return (
     <Fragment>
       <div className="sidebar">
         <p>Instructions here blah blah blah</p>
         <div className="controls">
-          <VillagerCombobox
-            placeholder="Type villager's name"
-            id="targetVillager"
-            labelText="Target Villager (Free Space)"
-            onSelect={villager => setSelectedTarget(villager)}
-            onDeselect={() => {
-              setSelectedTarget(null)
-            }}
-            filter={villager => !exclusions.find(v => v.id === villager.id)}
-          />
-          <VillagerCombobox
-            multiSelect
-            placeholder="Type villager name(s)"
-            id="excludeVillagers"
-            labelText="Exclude Villager(s)"
-            onSelect={villager => {
-              if (exclusions.includes(villager)) {
-                setExclusions(exclusions.filter(v => v !== villager))
-              } else {
-                setExclusions([...exclusions, villager])
-              }
-            }}
-            onDeselect={villager => {
-              setExclusions(exclusions.filter(v => v !== villager))
-            }}
-            onClearAll={() => setExclusions([])}
-            disabled={exclusions.length === exclusionMax}
-            filter={villager => (selectedTarget ? selectedTarget.id !== villager.id : true)}
-          />
           <button type="button" onClick={() => setOptionsOpen(true)}>
             Options
           </button>
@@ -107,16 +66,6 @@ export default function App() {
             }}
           >
             Generate New Card
-          </button>
-          <button
-            type="button"
-            className="cta-btn"
-            onClick={evt => {
-              indexedDB.deleteDatabase(`bingo`)
-              evt.target.disabled = true
-            }}
-          >
-            Clear Cache
           </button>
         </div>
       </div>
