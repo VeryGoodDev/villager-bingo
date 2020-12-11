@@ -9,7 +9,7 @@ import VillagerCombobox from './VillagerCombobox'
 // TODO: Language selector (default to navigator.languages, then en-US)
 // TODO: Animate open/close?
 // TODO: Lock body scroll when open
-// TODO: Close on escape
+// TODO: Close on escape (but not when VillagerCombobox is open)
 // TODO: Trap focus
 
 function Checkbox({ id, labelText, checked, onChange }) {
