@@ -12,6 +12,9 @@ export function AppProvider({ children }) {
     typeof initialShouldCache === `boolean` ? initialShouldCache : true
   )
   useEffect(() => {
+    if (shouldUseCache === false) {
+      indexedDB.deleteDatabase(`bingo`)
+    }
     localStorage.setItem(`shouldUseCache`, shouldUseCache)
   }, [shouldUseCache])
   const allVillagers = useVillagers(shouldUseCache)

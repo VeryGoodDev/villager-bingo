@@ -5,7 +5,6 @@ class IndexedDB {
 
   addMany(store, data) {
     return new Promise((resolve, reject) => {
-      console.log(`gonna add many`)
       const transaction = this.db.transaction(store, `readwrite`)
       transaction.oncomplete = evt => {
         resolve(evt)

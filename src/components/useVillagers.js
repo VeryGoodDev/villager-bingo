@@ -26,7 +26,9 @@ export default function useVillagers(shouldUseCache) {
               if (!cached?.length) throw new Error(`No data cached`)
               setVillagers(cached)
             } catch (err) {
-              if (err.message !== `No data cached`) console.warn(err)
+              if (err.message !== `No data cached`) {
+                console.warn(err)
+              }
               // If something went wrong reading from the db, just fetch from the API
               getVillagersFromApi().then(transformed => {
                 setVillagers(transformed)
