@@ -1,4 +1,10 @@
 import { h, render } from 'preact'
 import App from './components/App'
+import { AppProvider } from './components/AppContext'
 
-render(<App />, document.querySelector(`#root`))
+render(
+  <AppProvider>
+    <App />
+  </AppProvider>,
+  document.querySelector(`#root`)
+)

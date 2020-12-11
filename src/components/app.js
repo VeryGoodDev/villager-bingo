@@ -1,8 +1,9 @@
 import { Fragment, h } from 'preact'
-import { useEffect, useState } from 'preact/hooks'
+import { useContext, useEffect, useState } from 'preact/hooks'
 import { random } from '../util/math'
+import { AppContext } from './AppContext'
 import BingoCard from './BingoCard'
-import useVillagers from './useVillagers'
+import OptionsDialog from './OptionsDialog'
 import { VillagerCombobox } from './VillagerCombobox'
 
 // TODO: Print options w/ and w/o images
@@ -38,12 +39,18 @@ function getRandomVillagers(villagers, { target, exclusions = [] } = {}) {
   return indexes.map(idx => villagers[idx])
 }
 export default function App() {
+  const {
+    selectedTarget,
+    setSelectedTarget,
+    exclusions,
+    setExclusions,
+    exclusionMax,
+    setExclusionMax,
+    allVillagers,
+  } = useContext(AppContext)
   const [showCard, setShowCard] = useState(false)
   const [villagers, setVillagers] = useState(null)
-  const [selectedTarget, setSelectedTarget] = useState(null)
-  const [exclusions, setExclusions] = useState([])
-  const [exclusionMax, setExclusionMax] = useState(0)
-  const allVillagers = useVillagers()
+  const [optionsOpen, setOptionsOpen] = useState(false)
   const villagerCount = allVillagers?.length ?? 0
   useEffect(() => {
     setExclusionMax(villagerCount - 25)
@@ -82,6 +89,9 @@ export default function App() {
             disabled={exclusions.length === exclusionMax}
             filter={villager => (selectedTarget ? selectedTarget.id !== villager.id : true)}
           />
+          <button type="button" onClick={() => setOptionsOpen(true)}>
+            Options
+          </button>
           <button
             type="button"
             className="cta-btn"
@@ -127,6 +137,7 @@ export default function App() {
           </a>
         </div>
       </footer>
+      <OptionsDialog isOpen={optionsOpen} handleClose={() => setOptionsOpen(false)} />
     </Fragment>
   )
 }

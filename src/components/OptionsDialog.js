@@ -12,7 +12,7 @@ import Portal from './Portal'
 // TODO: Save preferences in localStorage
 // TODO: Animate open/close?
 
-export default function OptionsDialog({ isOpen }) {
+export default function OptionsDialog({ isOpen, handleClose }) {
   if (!isOpen) return null
   return (
     <Portal>
@@ -20,6 +20,9 @@ export default function OptionsDialog({ isOpen }) {
       <div className="overlay">
         <div className="overlay-contents">
           <span>Options</span>
+          <button type="button" onClick={handleClose}>
+            ✖
+          </button>
         </div>
       </div>
     </Portal>
