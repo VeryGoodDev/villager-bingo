@@ -18,8 +18,8 @@ export default function OptionsDialog({ isOpen, handleClose }) {
     exclusions,
     setExclusions,
     exclusionMax,
-    shouldCacheData,
-    setShouldCacheData,
+    shouldUseCache,
+    setShouldUseCache,
   } = useContext(AppContext)
   if (!isOpen) return null
   return (
@@ -63,12 +63,12 @@ export default function OptionsDialog({ isOpen, handleClose }) {
                 <input
                   type="checkbox"
                   id="cacheDataCheckbox"
-                  checked={shouldCacheData}
-                  onChange={() => setShouldCacheData(prev => !prev)}
+                  checked={shouldUseCache}
+                  onChange={() => setShouldUseCache(prev => !prev)}
                 />
                 <label htmlFor="cacheDataCheckbox">Cache Villager Data</label>
               </div>
-              {shouldCacheData ? (
+              {shouldUseCache ? (
                 <button
                   type="button"
                   onClick={evt => {

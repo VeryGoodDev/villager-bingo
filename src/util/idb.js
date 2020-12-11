@@ -5,6 +5,7 @@ class IndexedDB {
 
   addMany(store, data) {
     return new Promise((resolve, reject) => {
+      console.log(`gonna add many`)
       const transaction = this.db.transaction(store, `readwrite`)
       transaction.oncomplete = evt => {
         resolve(evt)
@@ -36,11 +37,11 @@ export default function getDb(name, { version, handleUpgrade = db => db } = {}) 
       return reject(new Error(`indexedDb could not be accessed`))
     }
     const request = indexedDB.open(name, version)
-    request.onerror = reject
+    request.onerror = err => reject(err)
     request.onsuccess = evt => resolve(new IndexedDB(evt.target.result))
     request.onupgradeneeded = evt => {
-      const db = handleUpgrade(evt.target.result)
-      resolve(new IndexedDB(db))
+      handleUpgrade(evt.target.result)
+      // resolve(new IndexedDB(db))
     }
     // This handler will only be needed if I make changes to the data caching in the future
     // request.onblocked = evt => {

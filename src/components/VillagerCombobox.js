@@ -1,6 +1,7 @@
 import { Fragment, h } from 'preact'
-import { useCallback, useEffect, useRef, useState } from 'preact/hooks'
+import { useCallback, useContext, useEffect, useRef, useState } from 'preact/hooks'
 import '../assets/css/villager-combobox.styl'
+import { AppContext } from './AppContext'
 import useVillagers from './useVillagers'
 
 function Chip({ text, onDelete = () => {}, onClick }) {
@@ -85,11 +86,12 @@ export default function VillagerCombobox({
   const [highlightedIndex, setHighlightedIndex] = useState(-1)
   const [readOnly, setReadOnly] = useState(false)
   const [readOnlyText, setReadOnlyText] = useState(``)
+  const { shouldUseCache } = useContext(AppContext)
   const highlightedRef = useRef()
   const inputRef = useRef()
   const optionsWrapperRef = useRef()
   const comboboxRef = useRef()
-  const allVillagers = useVillagers()
+  const allVillagers = useVillagers(shouldUseCache)
   const fuzzyMatcher = new RegExp([...inputText].join(`.*`), `i`)
   const filteredVillagers = allVillagers?.filter(villager => filter(villager) && fuzzyMatcher.test(villager.name)) ?? []
   const handleSelect = villager => {

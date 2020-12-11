@@ -2,19 +2,19 @@ import { createContext, h } from 'preact'
 import { useEffect, useState } from 'preact/hooks'
 import useVillagers from './useVillagers'
 
-export const AppContext = createContext()
-const initialShouldCache = JSON.parse(localStorage.getItem(`shouldCacheData`))
+export const AppContext = createContext({})
+const initialShouldCache = JSON.parse(localStorage.getItem(`shouldUseCache`))
 export function AppProvider({ children }) {
   const [selectedTarget, setSelectedTarget] = useState(null)
   const [exclusions, setExclusions] = useState([])
   const [exclusionMax, setExclusionMax] = useState(0)
-  const [shouldCacheData, setShouldCacheData] = useState(
+  const [shouldUseCache, setShouldUseCache] = useState(
     typeof initialShouldCache === `boolean` ? initialShouldCache : true
   )
   useEffect(() => {
-    localStorage.setItem(`shouldCacheData`, shouldCacheData)
-  }, [shouldCacheData])
-  const allVillagers = useVillagers()
+    localStorage.setItem(`shouldUseCache`, shouldUseCache)
+  }, [shouldUseCache])
+  const allVillagers = useVillagers(shouldUseCache)
   const villagerCount = allVillagers?.length ?? 0
   useEffect(() => {
     setExclusionMax(villagerCount - 25)
@@ -28,8 +28,8 @@ export function AppProvider({ children }) {
         setExclusions,
         exclusionMax,
         setExclusionMax,
-        shouldCacheData,
-        setShouldCacheData,
+        shouldUseCache,
+        setShouldUseCache,
         allVillagers,
       }}
     >
