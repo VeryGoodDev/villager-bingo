@@ -11,6 +11,15 @@ import VillagerCombobox from './VillagerCombobox'
 // TODO: Save preferences in localStorage
 // TODO: Animate open/close?
 
+function Checkbox({ id, labelText, checked, onChange }) {
+  return (
+    <div className="checkbox-wrapper">
+      <input type="checkbox" id={id} checked={checked} onChange={onChange} />
+      <label htmlFor={id}>{labelText}</label>
+    </div>
+  )
+}
+
 export default function OptionsDialog({ isOpen, handleClose }) {
   const {
     selectedTarget,
@@ -59,15 +68,12 @@ export default function OptionsDialog({ isOpen, handleClose }) {
               filter={villager => (selectedTarget ? selectedTarget.id !== villager.id : true)}
             />
             <div className="cache-wrapper">
-              <div>
-                <input
-                  type="checkbox"
-                  id="cacheDataCheckbox"
-                  checked={shouldUseCache}
-                  onChange={() => setShouldUseCache(prev => !prev)}
-                />
-                <label htmlFor="cacheDataCheckbox">Cache Villager Data</label>
-              </div>
+              <Checkbox
+                labelText="Cache Data"
+                id="cacheDataCheckbox"
+                checked={shouldUseCache}
+                onChange={() => setShouldUseCache(prev => !prev)}
+              />
               {shouldUseCache ? (
                 <button
                   type="button"

@@ -28,3 +28,41 @@
 
   &-contents
     padding 1em
+
+// Checkbox
+.checkbox-wrapper
+  align-items center
+  display grid
+  grid-column-gap 4px
+  grid-template-columns auto 1fr
+
+  margin-bottom 1em
+
+  input
+    display none
+
+    &:checked ~ label::before
+      background-image url('../icons/check.svg')
+      background-position center
+      background-repeat no-repeat
+      background-size 16px
+
+  label
+    align-items center
+    display grid
+    grid-column-gap 4px
+    grid-template-columns auto 1fr
+    margin 0
+
+    &::before
+      --size 12px
+      align-content center
+      background-color var(--bg-color-15)
+      border-radius 4px
+      content ''
+      display grid
+      justify-content center
+      height var(--size)
+      padding 4px
+      transition background-image 1s ease-in-out
+      width var(--size)
