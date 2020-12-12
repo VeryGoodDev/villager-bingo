@@ -4,7 +4,6 @@ import Portal from '../Portal'
 import './css/overlay.styl'
 
 // TODO: Animate open/close?
-// TODO: Lock body scroll when open
 // TODO: Close on escape (but not when VillagerCombobox is open)
 // TODO: Trap focus
 
@@ -19,6 +18,18 @@ export default function Overlay({ children, isOpen, handleClose }) {
     },
     [handleClose]
   )
+  // Lock body scroll when open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.height = `100vh`
+      document.body.style.overflowY = `hidden`
+    } else {
+      document.body.style.height = ``
+      document.body.style.overflowY = ``
+    }
+  }, [isOpen])
+  // Close on escape
+  // FIXME: Shouldn't close when escape is used to close villager combobox list
   useEffect(() => {
     if (isOpen) {
       window.addEventListener(`keydown`, handleEscape)
