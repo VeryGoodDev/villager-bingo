@@ -7,93 +7,21 @@
     display grid
     grid-column-gap 1em
     grid-template-columns auto auto
+    justify-content space-between
 
-// Overlay styles
-.scrim
-  background-color var(--bg-color-15)
-  bottom 0
-  left 0
-  opacity 0.75
-  position fixed
-  right 0
-  top 0
-
-.overlay
-  background-color var(--bg-color-25)
-  border-radius 8px
-  box-shadow 4px 4px 8px 4px var(--bg-color-15)
-  color var(--acnh-color-yellow)
-  left 50%
-  max-height calc(100vh - 2em)
-  max-width 350px
-  overflow-y auto
-  position absolute
-  top 50%
-  transform translate(-50%, -50%)
-  width 100vw
-
-  &-contents
-    padding 1em
-
-  .close-btn
-    --size 28px
+  // Styles heavily influenced by Material UI buttons
+  button
     background-color transparent
-    border none
-    border-radius 50%
+    border 1px solid var(--acnh-color-yellow-dull)
+    border-radius 8px
     color inherit
-    font-size 16px
-    height var(--size)
-    padding 0 0 1px
-    position absolute
-    right 8px
-    top 8px
-    transition background-color 120ms ease-in-out
-    width var(--size)
+    font-family inherit
+    font-size 1em
+    font-weight 500
+    padding 8px 16px
+    transition 150ms linear
+    transition-property background-color, border-color
 
-    &:focus,
     &:hover
-      background-color rgba(0, 0, 0, 0.5)
-      outline none
-
-// Checkbox
-.checkbox-wrapper
-  align-items center
-  display grid
-  grid-column-gap 4px
-  grid-template-columns auto 1fr
-
-  input
-    clip rect(0 0 0 0)
-    clip-path inset(50%)
-    height 1px
-    overflow hidden
-    position absolute
-    white-space nowrap
-    width 1px
-
-    &:checked ~ label::before
-      background-size 16px
-
-  label
-    align-items center
-    display grid
-    grid-column-gap 8px
-    grid-template-columns auto 1fr
-    margin 0
-
-    &::before
-      --size 6px
-      align-content center
-      background-color var(--bg-color-15)
-      background-image url('../icons/check.svg')
-      background-position center
-      background-repeat no-repeat
-      background-size 0
-      border-radius 4px
-      content ''
-      display grid
-      justify-content center
-      height var(--size)
-      padding 6px
-      transition background-size 100ms ease-in-out
-      width var(--size)
+      background-color var(--bg-color-35)
+      border-color var(--acnh-color-yellow)
