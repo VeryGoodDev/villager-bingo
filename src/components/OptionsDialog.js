@@ -6,12 +6,7 @@ import Checkbox from './ui/Checkbox'
 import Overlay from './ui/Overlay'
 import VillagerCombobox from './VillagerCombobox'
 
-// TODO: Extract generic Overlay for reuse
 // TODO: Language selector (default to navigator.languages, then en-US)
-// TODO: Animate open/close?
-// TODO: Lock body scroll when open
-// TODO: Close on escape (but not when VillagerCombobox is open)
-// TODO: Trap focus
 
 export default function OptionsDialog({ isOpen, handleClose }) {
   const {

@@ -25,9 +25,7 @@ body
   border-top none
   color var(--acnh-color-yellow)
   display grid
-  grid-row-gap 0.5em
-  grid-column-gap 2em
-  grid-template-columns 1fr 2fr
+  grid-row-gap 16px
   grid-template-rows 1fr auto
   justify-content center
   margin 0 auto
@@ -38,7 +36,10 @@ body
 .sidebar
   align-content start
   display grid
-  grid-row-gap 1em
+  grid-row-gap 8px
+
+  p
+    margin 0
 
 .bingo-card
   --size calc(100vmin - 200px)
@@ -101,9 +102,33 @@ body
   text-align center
 
 .controls
+  align-items center
   display grid
-  grid-row-gap 1em
+  grid-column-gap 16px
+  grid-template-columns 1fr auto
   justify-content stretch
+
+  .options-btn
+    --focus-outline-color transparent
+    align-items center
+    background-color transparent
+    border none
+    border-radius 50%
+    box-shadow 0px 0 0px 3px var(--focus-outline-color)
+    display grid
+    padding 4px
+    transition 250ms ease-in-out
+    transition-property box-shadow, transform
+
+    &:focus
+      --focus-outline-color var(--acnh-color-yellow)
+      outline none
+
+    &:hover
+      @media (prefers-reduced-motion: no-preference)
+        transform rotate(45deg)
+      @media (prefers-reduced-motion: reduced)
+        --focus-outline-color var(--acnh-color-yellow)
 
 .cta-btn
   background-color var(--acnh-color-brown)
