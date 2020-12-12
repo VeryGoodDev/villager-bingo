@@ -1,0 +1,42 @@
+.checkbox-wrapper
+  align-items center
+  display grid
+  grid-column-gap 4px
+  grid-template-columns auto 1fr
+
+  input
+    clip rect(0 0 0 0)
+    clip-path inset(50%)
+    height 1px
+    overflow hidden
+    position absolute
+    white-space nowrap
+    width 1px
+
+    &:checked ~ label::before
+      background-size 16px
+
+  label
+    align-items center
+    display grid
+    grid-column-gap 8px
+    grid-template-columns auto 1fr
+    margin 0
+    user-select none
+
+    &::before
+      --size 6px
+      align-content center
+      background-color var(--bg-color-15)
+      background-image url('../icons/check.svg')
+      background-position center
+      background-repeat no-repeat
+      background-size 0
+      border-radius 4px
+      content ''
+      display grid
+      justify-content center
+      height var(--size)
+      padding 6px
+      transition background-size 100ms ease-in-out
+      width var(--size)
