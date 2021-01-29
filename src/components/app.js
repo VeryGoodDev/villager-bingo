@@ -6,7 +6,7 @@ import BingoCard from './BingoCard'
 import Instructions from './Instructions'
 import OptionsDialog from './OptionsDialog'
 
-// TODO: Print options w/ and w/o images
+// TODO: Add option to disable images
 // TODO: Investigate caching images as base64 strings
 // TODO: Mobile
 // TODO: Bingo detection (count total bingos)

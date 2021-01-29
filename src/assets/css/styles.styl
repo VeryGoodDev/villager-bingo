@@ -51,6 +51,20 @@ body
   grid-template-columns repeat(5, 1fr)
   grid-template-rows repeat(5, 1fr)
 
+
+@media print
+  body, #root
+    background-color transparent
+    border none
+  .sidebar,
+  .print-buttons,
+  footer
+    &, & *
+      display none
+
+  .bingo-card
+    display grid
+
 .cell
   --outline-width calc(1em / 3)
   border 1px solid #000
@@ -102,6 +116,25 @@ body
   grid-template-rows 1fr auto
   min-height 100%
   text-align center
+
+.print-buttons
+  margin-bottom 8px
+
+  button
+    background-color transparent
+    border 1px solid var(--acnh-color-yellow-dull)
+    border-radius 8px
+    color inherit
+    font-family inherit
+    font-size 0.8em
+    font-weight 500
+    padding 4px 12px
+    transition 150ms linear
+    transition-property background-color, border-color
+
+    &:hover
+      background-color var(--bg-color-35)
+      border-color var(--acnh-color-yellow)
 
 .controls
   align-items center
