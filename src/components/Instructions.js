@@ -15,7 +15,7 @@ export default function Instructions() {
       }}
       style={{
         maxWidth: 450,
-        width: isOpen ? `100%` : `100vw`,
+        width: isOpen ? `100%` : `calc(100vw - 2em)`,
       }}
     >
       <div className="instructions-wrapper">

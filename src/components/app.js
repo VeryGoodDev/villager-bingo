@@ -16,7 +16,7 @@ import OptionsDialog from './OptionsDialog'
 // TODO: Support multiple bingo cards
 // TODO: Check screen reader a11y for VillagerCombobox
 // TODO: Issues/feedback popup from footer
-// TODO: A11y audit
+// TODO: Full a11y audit
 // TODO: Generate new card should clear previously marked squares
 
 function getRandomVillagers(villagers, { target, exclusions = [] } = {}) {
