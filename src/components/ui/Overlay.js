@@ -1,14 +1,14 @@
-import { h } from 'preact'
+import { Fragment, h } from 'preact'
 import { useCallback, useEffect, useRef } from 'preact/hooks'
 import Portal from '../Portal'
 import './css/overlay.styl'
+import useFocusLock from './useFocusLock'
 
 // TODO: Animate open/close?
 // TODO: Close on escape (but not when VillagerCombobox is open)
-// TODO: Trap focus
 
 export default function Overlay({ children, isOpen, handleClose }) {
-  const overlayRef = useRef()
+  const overlayRef = useRef(null)
   const handleEscape = useCallback(
     evt => {
       if (evt.key === `Escape`) {
@@ -34,16 +34,31 @@ export default function Overlay({ children, isOpen, handleClose }) {
     if (isOpen) {
       window.addEventListener(`keydown`, handleEscape)
     }
+    return () => {
+      window.removeEventListener(`keydown`, handleEscape)
+    }
   }, [isOpen, handleEscape])
-  if (!isOpen) return null
+  // Trap focus in the overlay when it's open
+  useFocusLock({
+    enabled: isOpen,
+    containerRef: overlayRef,
+    shouldAutofocus: true,
+  })
   return (
     <Portal>
-      <div className="scrim" />
-      <div ref={overlayRef} className="overlay">
-        <div className="overlay-contents">{children}</div>
-        <button type="button" className="close-btn" onClick={handleClose} aria-label="Close dialog">
-          <span aria-hidden>✖</span>
-        </button>
+      {/* I hate it, but this was the only way I could get the ref (which is needed for autofocus and focus lock) to consistently not be null when the overlay is open */}
+      <div ref={overlayRef}>
+        {isOpen ? (
+          <Fragment>
+            <div className="scrim" />
+            <div className="overlay">
+              <div className="overlay-contents">{children}</div>
+              <button type="button" className="close-btn" onClick={handleClose} aria-label="Close dialog">
+                <span aria-hidden>✖</span>
+              </button>
+            </div>
+          </Fragment>
+        ) : null}
       </div>
     </Portal>
   )
