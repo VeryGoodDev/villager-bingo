@@ -3,6 +3,7 @@ import { useContext, useState } from 'preact/hooks'
 import { random } from '../util/math'
 import { AppContext } from './AppContext'
 import BingoCard from './BingoCard'
+import Instructions from './Instructions'
 import OptionsDialog from './OptionsDialog'
 
 // TODO: Print options w/ and w/o images
@@ -15,6 +16,7 @@ import OptionsDialog from './OptionsDialog'
 // TODO: Support multiple bingo cards
 // TODO: Check screen reader a11y for VillagerCombobox
 // TODO: Issues/feedback popup from footer
+// TODO: A11y audit
 
 function getRandomVillagers(villagers, { target, exclusions = [] } = {}) {
   if (!villagers?.length) return villagers
@@ -43,7 +45,7 @@ export default function App() {
   return (
     <Fragment>
       <div className="sidebar">
-        <p>Instructions here blah blah blah</p>
+        <Instructions />
         <div className="controls">
           <button
             type="button"
