@@ -17,6 +17,7 @@ import OptionsDialog from './OptionsDialog'
 // TODO: Check screen reader a11y for VillagerCombobox
 // TODO: Issues/feedback popup from footer
 // TODO: A11y audit
+// TODO: Generate new card should clear previously marked squares
 
 function getRandomVillagers(villagers, { target, exclusions = [] } = {}) {
   if (!villagers?.length) return villagers
