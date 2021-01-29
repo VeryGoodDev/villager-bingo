@@ -13,8 +13,7 @@ import OptionsDialog from './OptionsDialog'
 // TODO: Use browser language/user selected for names (villager data has multiple, use navigator.languages)
 // TODO: Show loading while villagers/preferences load
 // TODO: Support multiple bingo cards
-// TODO: Look into combining focus/blur inside VillagerCombobox custom Input for proper blur handling
-// TODO: Screen reader a11y for VillagerCombobox
+// TODO: Check screen reader a11y for VillagerCombobox
 // TODO: Issues/feedback popup from footer
 
 function getRandomVillagers(villagers, { target, exclusions = [] } = {}) {
