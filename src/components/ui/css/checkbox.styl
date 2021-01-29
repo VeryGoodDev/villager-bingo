@@ -16,6 +16,9 @@
     &:checked ~ label::before
       background-size 16px
 
+    &:focus ~ label::before
+      border-color var(--acnh-color-yellow)
+
   label
     align-items center
     display grid
@@ -32,6 +35,7 @@
       background-position center
       background-repeat no-repeat
       background-size 0
+      border 2px solid transparent
       border-radius 4px
       content ''
       display grid
