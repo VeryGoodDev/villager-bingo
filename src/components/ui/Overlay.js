@@ -1,24 +1,14 @@
 import { Fragment, h } from 'preact'
-import { useCallback, useEffect, useRef } from 'preact/hooks'
+import { useEffect, useRef } from 'preact/hooks'
 import Portal from '../Portal'
+import useEscapeHandler from '../useEscapeHandler'
 import './css/overlay.styl'
 import useFocusLock from './useFocusLock'
 
 // TODO: Animate open/close?
-// TODO: Close on escape (but not when VillagerCombobox is open)
 
 export default function Overlay({ children, isOpen, handleClose }) {
   const overlayRef = useRef(null)
-  const handleEscape = useCallback(
-    evt => {
-      if (evt.key === `Escape`) {
-        window.removeEventListener(`keydown`, handleEscape)
-        handleClose()
-      }
-    },
-    [handleClose]
-  )
-  // Lock body scroll when open
   useEffect(() => {
     if (isOpen) {
       document.body.style.height = `100vh`
@@ -29,15 +19,10 @@ export default function Overlay({ children, isOpen, handleClose }) {
     }
   }, [isOpen])
   // Close on escape
-  // FIXME: Shouldn't close when escape is used to close villager combobox list
-  useEffect(() => {
-    if (isOpen) {
-      window.addEventListener(`keydown`, handleEscape)
-    }
-    return () => {
-      window.removeEventListener(`keydown`, handleEscape)
-    }
-  }, [isOpen, handleEscape])
+  useEscapeHandler({
+    enabled: isOpen,
+    handler: handleClose,
+  })
   // Trap focus in the overlay when it's open
   useFocusLock({
     enabled: isOpen,

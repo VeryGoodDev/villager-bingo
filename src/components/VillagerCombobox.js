@@ -2,6 +2,7 @@ import { Fragment, h } from 'preact'
 import { useCallback, useContext, useEffect, useRef, useState } from 'preact/hooks'
 import '../assets/css/villager-combobox.styl'
 import { AppContext } from './AppContext'
+import useEscapeHandler from './useEscapeHandler'
 
 function Chip({ text, onDelete = () => {}, onClick }) {
   if (typeof onClick === `function`) {
@@ -113,24 +114,24 @@ export default function VillagerCombobox({
       setHighlightedIndex(-1)
     }
   }
-  const handleEscape = useCallback(evt => {
-    if (evt.code === `Escape`) {
-      setShowOptions(false)
-      window.removeEventListener(`keydown`, handleEscape)
-    }
-  }, [])
   const handleHackyBlur = useCallback(evt => {
     if (!comboboxRef.current?.contains(evt.target)) {
       setShowOptions(false)
       document.removeEventListener(`click`, handleHackyBlur)
     }
   }, [])
+  const handleEscape = useCallback(() => {
+    setShowOptions(false)
+  }, [])
+  useEscapeHandler({
+    enabled: showOptions,
+    handler: handleEscape,
+  })
   useEffect(() => {
     if (showOptions) {
-      window.addEventListener(`keydown`, handleEscape)
       document.addEventListener(`click`, handleHackyBlur)
     }
-  }, [showOptions, handleEscape, handleHackyBlur])
+  }, [showOptions, handleHackyBlur])
   // FIXME: Find a way to do this where I can have a clear conscience
   useEffect(() => {
     if (!showOptions || !highlightedRef.current) return
