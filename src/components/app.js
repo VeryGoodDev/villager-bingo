@@ -6,18 +6,21 @@ import BingoCard from './BingoCard'
 import Instructions from './Instructions'
 import OptionsDialog from './OptionsDialog'
 
+// Important to do
+// TODO: Mobile
+// TODO: Check screen reader a11y for VillagerCombobox
+// TODO: Issues/feedback popup from footer
+// TODO: Full a11y audit
+// TODO: Generate new card should clear previously marked squares
+
+// Future enhancements
 // TODO: Add option to disable images
 // TODO: Investigate caching images as base64 strings
-// TODO: Mobile
 // TODO: Bingo detection (count total bingos)
 // TODO: Maybe look into PWA-ifying
 // TODO: Use browser language/user selected for names (villager data has multiple, use navigator.languages)
 // TODO: Show loading while villagers/preferences load
 // TODO: Support multiple bingo cards
-// TODO: Check screen reader a11y for VillagerCombobox
-// TODO: Issues/feedback popup from footer
-// TODO: Full a11y audit
-// TODO: Generate new card should clear previously marked squares
 
 function getRandomVillagers(villagers, { target, exclusions = [] } = {}) {
   if (!villagers?.length) return villagers
