@@ -48,7 +48,7 @@ export function hslToHex(h, s, l) {
   } else if (hue >= 60 && hue < 120) {
     red = x
     green = c
-    b = 0
+    blue = 0
   } else if (hue >= 120 && hue < 180) {
     red = 0
     green = c
