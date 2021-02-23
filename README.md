@@ -1,4 +1,4 @@
-A small Preact app I made for making villager hunting in Animal Crossing New Horizons a little more enjoyable, especially with friends. Check it out [here](https://verygooddev.github.io/villager-bingo).
+A small Preact app I made for making villager hunting in Animal Crossing New Horizons a little more enjoyable, especially with friends. Currently fixing build problems, feel free to clone and run the repo locally to see it, or check back another time for a working link.
 
 ## Features
 - Generate a bingo card with random villagers
