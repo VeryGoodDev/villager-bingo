@@ -24,6 +24,9 @@
     "sirv-cli": "1.0.3",
     "stylus": "^0.54.8"
   },
+  "resolutions": {
+    "terser": "^5.2.0"
+  },
   "eslintConfig": {
     "extends": [
       "preact",
