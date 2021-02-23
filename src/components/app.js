@@ -112,6 +112,13 @@ export default function App() {
             ACNH API
           </a>
         </div>
+        <div>
+          Find a bug? Got a suggestion?{` `}
+          {/* eslint-disable-next-line react/jsx-no-target-blank */}
+          <a href="https://github.com/VeryGoodDev/villager-bingo/issues" target="_blank" rel="noopener">
+            Create an issue here
+          </a>
+        </div>
       </footer>
       <OptionsDialog isOpen={optionsOpen} handleClose={() => setOptionsOpen(false)} />
     </Fragment>
