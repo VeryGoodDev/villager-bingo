@@ -1,13 +1,11 @@
 import { useEffect, useState } from 'preact/hooks'
-import { TEST_VILLAGERS } from '../mocks/villager-data'
 import { findComplement, hexToHsl, hslToHex } from '../util/color-utils'
 import getDb from '../util/idb'
 
 function getVillagersFromApi() {
-  return new Promise(resolve => setTimeout(resolve, 2000, TEST_VILLAGERS.map(transformVillager)))
-  // return fetch(`https://acnhapi.com/v1a/villagers`)
-  //   .then(res => res.json())
-  //   .then(raw => raw.map(transformVillager))
+  return fetch(`https://acnhapi.com/v1a/villagers`)
+    .then(res => res.json())
+    .then(raw => raw.map(transformVillager))
 }
 function handleUpgrade(db) {
   db.createObjectStore(`villagers`, { keyPath: `id` })
