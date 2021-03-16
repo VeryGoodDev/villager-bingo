@@ -26,37 +26,37 @@ export default function OptionsDialog({ isOpen, handleClose }) {
           placeholder="Type villager's name"
           id="targetVillager"
           labelText="Target Villager (Free Space)"
-          onSelect={villager => setSelectedTarget(villager)}
+          onSelect={(villager) => setSelectedTarget(villager)}
           onDeselect={() => {
             setSelectedTarget(null)
           }}
-          filter={villager => !exclusions.find(v => v.id === villager.id)}
+          filter={(villager) => !exclusions.find((v) => v.id === villager.id)}
         />
         <VillagerCombobox
           multiSelect
           placeholder="Type villager name(s)"
           id="excludeVillagers"
           labelText="Exclude Villager(s)"
-          onSelect={villager => {
+          onSelect={(villager) => {
             if (exclusions.includes(villager)) {
-              setExclusions(exclusions.filter(v => v !== villager))
+              setExclusions(exclusions.filter((v) => v !== villager))
             } else {
               setExclusions([...exclusions, villager])
             }
           }}
-          onDeselect={villager => {
-            setExclusions(exclusions.filter(v => v !== villager))
+          onDeselect={(villager) => {
+            setExclusions(exclusions.filter((v) => v !== villager))
           }}
           onClearAll={() => setExclusions([])}
           disabled={exclusions.length === exclusionMax}
-          filter={villager => (selectedTarget ? selectedTarget.id !== villager.id : true)}
+          filter={(villager) => (selectedTarget ? selectedTarget.id !== villager.id : true)}
         />
         <div className="cache-wrapper">
           <Checkbox
             labelText="Cache Data"
             id="cacheDataCheckbox"
             checked={shouldUseCache}
-            onChange={() => setShouldUseCache(prev => !prev)}
+            onChange={() => setShouldUseCache((prev) => !prev)}
           />
           {shouldUseCache ? (
             <button

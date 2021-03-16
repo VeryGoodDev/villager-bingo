@@ -14,7 +14,7 @@ export default function Details({ defaultOpen, onToggle, summaryContent, childre
       open={isOpen}
       onToggle={() => {
         if (!hasMounted) return
-        setIsOpen(prev => {
+        setIsOpen((prev) => {
           const newValue = !prev
           if (onToggle) onToggle(newValue)
           return newValue

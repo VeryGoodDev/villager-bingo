@@ -10,7 +10,7 @@ export default function Instructions() {
     <Details
       defaultOpen={false}
       summaryContent="Instructions"
-      onToggle={newValue => {
+      onToggle={(newValue) => {
         setIsOpen(newValue)
       }}
       style={{

@@ -16,7 +16,7 @@
   "devDependencies": {
     "@babel/core": "^7.12.3",
     "@babel/plugin-transform-react-jsx": "^7.12.5",
-    "eslint": "^6.0.1",
+    "eslint": "^7.22.0",
     "eslint-config-personal": "github:verygooddev/eslint-config-personal",
     "eslint-config-preact": "^1.1.0",
     "parcel-bundler": "^1.12.4",
@@ -41,7 +41,6 @@
       }
     },
     "rules": {
-      "consistent-return": "off",
       "default-case": "off",
       "react/prop-types": "off",
       "react/jsx-props-no-spreading": "off"

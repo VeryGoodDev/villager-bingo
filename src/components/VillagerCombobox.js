@@ -92,8 +92,9 @@ export default function VillagerCombobox({
   const optionsWrapperRef = useRef()
   const comboboxRef = useRef()
   const fuzzyMatcher = new RegExp([...inputText].join(`.*`), `i`)
-  const filteredVillagers = allVillagers?.filter(villager => filter(villager) && fuzzyMatcher.test(villager.name)) ?? []
-  const handleSelect = villager => {
+  const filteredVillagers =
+    allVillagers?.filter((villager) => filter(villager) && fuzzyMatcher.test(villager.name)) ?? []
+  const handleSelect = (villager) => {
     if (disabled) return
     onSelect(villager)
     if (multiSelect) {
@@ -105,7 +106,6 @@ export default function VillagerCombobox({
       } else {
         setSelectedVillagers([...selectedVillagers, villager.id])
       }
-      // eslint-disable-next-line babel/no-unused-expressions
       inputRef.current?.focus()
     } else {
       setReadOnly(true)
@@ -114,7 +114,7 @@ export default function VillagerCombobox({
       setHighlightedIndex(-1)
     }
   }
-  const handleHackyBlur = useCallback(evt => {
+  const handleHackyBlur = useCallback((evt) => {
     if (!comboboxRef.current?.contains(evt.target)) {
       setShowOptions(false)
       document.removeEventListener(`click`, handleHackyBlur)
@@ -142,7 +142,8 @@ export default function VillagerCombobox({
     } else if (optionOffsetTop < parentScrollTop) {
       highlightedRef.current.scrollIntoView()
     }
-  }, [highlightedRef.current, showOptions])
+    // Disabled exhaustive deps here because this is a hack I hope to one day find a better solution for
+  }, [highlightedRef.current, showOptions]) // eslint-disable-line react-hooks/exhaustive-deps
   return (
     <div ref={comboboxRef} className="combobox-wrapper">
       <Input
@@ -152,7 +153,7 @@ export default function VillagerCombobox({
         labelText={labelText}
         value={inputText}
         disabled={disabled}
-        onInput={evt => {
+        onInput={(evt) => {
           setInputText(evt.target.value)
           if (!showOptions) setShowOptions(true)
         }}
@@ -172,20 +173,20 @@ export default function VillagerCombobox({
             setInputText(``)
           }
         }}
-        onFocus={evt => {
+        onFocus={(evt) => {
           if (evt.relatedTarget) return
           setShowOptions(true)
         }}
         onClick={() => {
           if (!showOptions) setShowOptions(true)
         }}
-        onKeyDown={evt => {
+        onKeyDown={(evt) => {
           switch (evt.code) {
             case `ArrowDown`:
-              setHighlightedIndex(prev => (prev === filteredVillagers.length - 1 ? 0 : prev + 1))
+              setHighlightedIndex((prev) => (prev === filteredVillagers.length - 1 ? 0 : prev + 1))
               break
             case `ArrowUp`:
-              setHighlightedIndex(prev => (prev === 0 ? filteredVillagers.length - 1 : prev - 1))
+              setHighlightedIndex((prev) => (prev === 0 ? filteredVillagers.length - 1 : prev - 1))
               break
             case `Enter`:
               handleSelect(filteredVillagers[highlightedIndex])
@@ -228,15 +229,15 @@ export default function VillagerCombobox({
               setSelectedVillagers([])
             }}
           />
-          {selectedVillagers.map(villagerId => {
-            const villager = allVillagers.find(v => v.id === villagerId)
+          {selectedVillagers.map((villagerId) => {
+            const villager = allVillagers.find((v) => v.id === villagerId)
             return (
               <Chip
                 key={villagerId}
                 text={villager.name}
                 onDelete={() => {
-                  onDeselect(allVillagers.find(v => v.id === villagerId))
-                  setSelectedVillagers(selectedVillagers.filter(v => v !== villagerId))
+                  onDeselect(allVillagers.find((v) => v.id === villagerId))
+                  setSelectedVillagers(selectedVillagers.filter((v) => v !== villagerId))
                 }}
               />
             )

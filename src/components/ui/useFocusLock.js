@@ -9,7 +9,7 @@ export default function useFocusLock({ enabled, containerRef, shouldAutofocus })
     const focusables = container.querySelectorAll(focusableSelectors)
     const firstFocusableEl = focusables[0]
     const lastFocusableEl = focusables[focusables.length - 1]
-    const handleKeydown = evt => {
+    const handleKeydown = (evt) => {
       if (evt.key !== `Tab`) return
       if (evt.shiftKey) {
         if (document.activeElement === firstFocusableEl) {
@@ -27,6 +27,7 @@ export default function useFocusLock({ enabled, containerRef, shouldAutofocus })
     if (shouldAutofocus && !container.contains(document.activeElement)) {
       firstFocusableEl.focus()
     }
+    // eslint-disable-next-line consistent-return
     return () => {
       window.removeEventListener(`keydown`, handleKeydown)
     }

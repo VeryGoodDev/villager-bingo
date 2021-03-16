@@ -24,7 +24,7 @@ export default function BingoCard({ villagers }) {
             key={id}
             type="button"
             className="cell"
-            onClick={evt => {
+            onClick={(evt) => {
               evt.currentTarget.classList.toggle(`marked`)
             }}
           >

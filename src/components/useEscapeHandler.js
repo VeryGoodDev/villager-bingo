@@ -11,7 +11,7 @@ export default function useEscapeHandler({ enabled, handler }) {
   const { handlers, setHandlers } = useContext(EscapeHandlerContext)
   const lastHandler = getLastHandler(handlers)
   const handleEscape = useCallback(
-    evt => {
+    (evt) => {
       if (evt.key === `Escape`) {
         window.removeEventListener(`keydown`, handleEscape)
         if (lastHandler) lastHandler()
@@ -21,9 +21,9 @@ export default function useEscapeHandler({ enabled, handler }) {
   )
   useEffect(() => {
     if (enabled) {
-      setHandlers(prev => [...prev, handler])
+      setHandlers((prev) => [...prev, handler])
     } else {
-      setHandlers(prev => prev.filter(fn => fn !== handler))
+      setHandlers((prev) => prev.filter((fn) => fn !== handler))
     }
     window.addEventListener(`keydown`, handleEscape)
     return () => {

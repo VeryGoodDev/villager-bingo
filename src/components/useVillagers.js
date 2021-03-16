@@ -4,8 +4,8 @@ import getDb from '../util/idb'
 
 function getVillagersFromApi() {
   return fetch(`https://acnhapi.com/v1a/villagers`)
-    .then(res => res.json())
-    .then(raw => raw.map(transformVillager))
+    .then((res) => res.json())
+    .then((raw) => raw.map(transformVillager))
 }
 function handleUpgrade(db) {
   db.createObjectStore(`villagers`, { keyPath: `id` })
@@ -18,7 +18,7 @@ export default function useVillagers(shouldUseCache) {
     if (!villagers?.length) {
       if (shouldUseCache) {
         getDb(`bingo`, { handleUpgrade })
-          .then(async db => {
+          .then(async (db) => {
             try {
               const cached = await db.getAll(`villagers`)
               if (!cached?.length) throw new Error(`No data cached`)
@@ -28,13 +28,13 @@ export default function useVillagers(shouldUseCache) {
                 console.warn(err)
               }
               // If something went wrong reading from the db, just fetch from the API
-              getVillagersFromApi().then(transformed => {
+              getVillagersFromApi().then((transformed) => {
                 setVillagers(transformed)
                 db.addMany(`villagers`, transformed).catch(console.warn)
               })
             }
           })
-          .catch(err => {
+          .catch((err) => {
             // Something went wrong, just fetch from the API
             console.error(err)
             getVillagersFromApi().then(setVillagers)

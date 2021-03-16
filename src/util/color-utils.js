@@ -3,8 +3,8 @@ function getColorChannels(hex) {
   return hex
     .match(/^#?([\da-f]{1,2})([\da-f]{1,2})([\da-f]{1,2})$/i)
     .slice(1)
-    .map(n => (n.length === 2 ? n : n.repeat(2)))
-    .map(n => parseInt(n, 16) / 255)
+    .map((n) => (n.length === 2 ? n : n.repeat(2)))
+    .map((n) => parseInt(n, 16) / 255)
 }
 export function hexToHsl(hex) {
   const [red, green, blue] = getColorChannels(hex)
@@ -73,6 +73,6 @@ export function hslToHex(h, s, l) {
 }
 export function findComplement(hex) {
   return getColorChannels(hex)
-    .map(channel => Math.floor((1 - channel) * 255))
-    .map(diff => diff.toString(16).padStart(2, 0))
+    .map((channel) => Math.floor((1 - channel) * 255))
+    .map((diff) => diff.toString(16).padStart(2, 0))
 }

@@ -26,8 +26,8 @@ function getRandomVillagers(villagers, { target, exclusions = [] } = {}) {
   if (!villagers?.length) return villagers
   const max = target ? 24 : 25
   const indexSet = new Set()
-  const targetIndex = villagers.findIndex(v => v.id === target?.id)
-  const excludedIndexes = exclusions.map(villager => villagers.findIndex(v => v.id === villager.id))
+  const targetIndex = villagers.findIndex((v) => v.id === target?.id)
+  const excludedIndexes = exclusions.map((villager) => villagers.findIndex((v) => v.id === villager.id))
   if (target) excludedIndexes.push(targetIndex)
   while (indexSet.size < max) {
     let newIndex
@@ -38,7 +38,7 @@ function getRandomVillagers(villagers, { target, exclusions = [] } = {}) {
   }
   const indexes = [...indexSet]
   if (target) indexes.splice(12, 0, targetIndex)
-  return indexes.map(idx => villagers[idx])
+  return indexes.map((idx) => villagers[idx])
 }
 export default function App() {
   const { selectedTarget, exclusions, allVillagers } = useContext(AppContext)
